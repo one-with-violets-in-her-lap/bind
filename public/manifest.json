@@ -1,0 +1,32 @@
+{
+    "manifest_version": 2,
+    "name": "Bind",
+    "version": "0.0.1",
+
+    "permissions": ["activeTab"],
+
+    "description": "Shortcuts for anything in browser. Bind a hotkey to a button click",
+
+    "icons": {
+        "48": "icons/48px.png"
+    },
+
+    "browser_action": {
+        "default_icon": "icons/48px.png",
+        "default_title": "Bind",
+        "default_popup": "popup/index.html"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content-script/main.js"]
+        }
+    ],
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "bind@bind.com"
+        }
+    }
+}
