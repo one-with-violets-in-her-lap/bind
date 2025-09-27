@@ -1,33 +1,28 @@
-import styles from './page.css'
+import styles from './styles/main.css'
 
-import { addContentScriptMessageListener } from '@/shared/lib/messages'
+import { createApp } from 'vue'
+import App from './App.vue'
 
 function startContentScript() {
-    console.log('[bind] yo ', styles,)
+    console.log('[bind] yo')
 
-    document.head.insertAdjacentHTML('beforeend', `<style>${styles}</style>`)
+    const shadowHost = document.createElement('div')
+    shadowHost.style.all = 'unset'
 
-    addContentScriptMessageListener('add-shortcut', () => startShortcutCreation())
-}
+    const shadow = shadowHost.attachShadow({ mode: 'open' })
 
-function startShortcutCreation() {
-    const abortController = new AbortController()
+    const appContainer = document.createElement('div')
+    appContainer.id = 'app'
 
-    document.body.classList.add('bind__select-mode')
+    const styleElement = document.createElement('style')
+    styleElement.innerHTML = styles
 
-    let previousHighlightedElement: HTMLElement | undefined = undefined
-    document.addEventListener(
-        'mousemove',
-        event => {
-            previousHighlightedElement?.classList.remove('bind__highlighted')
+    shadow.appendChild(styleElement)
+    shadow.appendChild(appContainer)
 
-            if (event.target instanceof HTMLElement) {
-                event.target.classList.add('bind__highlighted')
-                previousHighlightedElement = event.target
-            }
-        },
-        { signal: abortController.signal },
-    )
+    document.body.appendChild(shadowHost)
+
+    createApp(App).mount(appContainer)
 }
 
 if (window.bindExtension === undefined) {
