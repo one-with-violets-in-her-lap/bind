@@ -9,6 +9,10 @@ const isAppActive = ref(true)
 const { hoveredElement } = useHoveredElement({ debouncedUpdate: true })
 
 watch(hoveredElement, (newElement, previousElement) => {
+    if (!isAppActive.value) {
+        return
+    }
+
     newElement?.addEventListener('click', handleClick, { capture: true })
     previousElement?.removeEventListener('click', handleClick, { capture: true })
 })
@@ -44,7 +48,6 @@ function handleClick(event: Event) {
 
     event.stopPropagation()
     event.preventDefault()
-    console.log(event.target)
 }
 </script>
 
