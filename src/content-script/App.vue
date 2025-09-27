@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useHoveredElement } from '@/content-script/composables/hovered-element'
+import { useHoveredElement } from '@/content-script/utils/hovered-element'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { addContentScriptMessageListener } from '@/shared/lib/messages'
 
@@ -110,7 +110,13 @@ async function handleElementSelection(event: Event) {
             "
         >
             <h2 class="heading-h2 mb-4">
-                New shortcut - {{ state.selectedElement.textContent }}
+                New shortcut -
+                {{
+                    state.selectedElement.textContent ||
+                    state.selectedElement.title ||
+                    state.selectedElement.id ||
+                    state.selectedElement.className
+                }}
             </h2>
 
             <AppButton> Create </AppButton>
