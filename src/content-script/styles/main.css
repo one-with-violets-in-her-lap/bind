@@ -17,7 +17,7 @@
 
 .hovered-element-highlight {
     position: fixed;
-    background-color: color-mix(in srgb, var(--color-foreground) 30%, transparent);
+    background-color: color-mix(in srgb, #9c9c9c 30%, transparent);
     border-radius: 14px;
 
     box-shadow: 0px 0px 22px 0px
@@ -25,7 +25,7 @@
 
     border: 1px solid var(--color-foreground-muted);
 
-    z-index: 9999;
+    z-index: 9998;
     pointer-events: none;
 
     transition: all 0.2s ease;
