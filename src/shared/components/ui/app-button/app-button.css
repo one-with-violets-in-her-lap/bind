@@ -1,0 +1,10 @@
+.app-button {
+    cursor: pointer;
+    border: 0.8px solid var(--color-foreground-muted);
+    background-color: var(--color-foreground);
+    padding: 10px 24px;
+    color: var(--color-background);
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-family: 'Courier New', Courier, monospace;
+}

@@ -15,10 +15,26 @@ export function sendToContentScript(tabId: number, message: ContentScriptMessage
 
 export function addContentScriptMessageListener<
     TMessage extends ContentScriptMessage,
->(messageType: TMessage['messageType'], handler: (message: TMessage) => void) {
-    chrome.runtime.onMessage.addListener((message: ContentScriptMessage) => {
+>(
+    messageType: TMessage['messageType'],
+    handler: (message: TMessage) => void,
+    options: { signal?: AbortSignal } = {},
+) {
+    function listener(message: ContentScriptMessage) {
         if (message.messageType === messageType) {
             handler(message as TMessage)
         }
-    })
+    }
+
+    chrome.runtime.onMessage.addListener(listener)
+
+    options.signal?.addEventListener('abort', () =>
+        chrome.runtime.onMessage.removeListener(listener),
+    )
+
+    return {
+        remove() {
+            chrome.runtime.onMessage.removeListener(listener)
+        },
+    }
 }

@@ -8,6 +8,8 @@ function handleAddShortcut() {
         }
 
         sendToContentScript(tabs[0].id, { messageType: 'add-shortcut' })
+
+        window.close()
     })
 }
 </script>
