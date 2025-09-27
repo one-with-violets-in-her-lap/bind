@@ -1,12 +1,22 @@
 <script lang="ts" setup>
 import { useHoveredElement } from '@/content-script/composables/hovered-element'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 const { hoveredElement } = useHoveredElement({ debouncedUpdate: true })
 
 const hoveredElementBoundingClientRect = computed(() =>
     hoveredElement.value?.getBoundingClientRect(),
 )
+
+function handleClick(event: Event) {
+    event.preventDefault()
+    console.log(event.target)
+}
+
+watch(hoveredElement, (newElement, previousElement) => {
+    newElement?.addEventListener('click', handleClick)
+    previousElement?.removeEventListener('click', handleClick)
+})
 </script>
 
 <template>
