@@ -9,7 +9,7 @@ function startContentScript() {
 
     let isAppMounted = false
 
-    addContentScriptMessageListener('add-shortcut', () => {
+    addContentScriptMessageListener('shortcut-creation-start', () => {
         if (isAppMounted) {
             return
         }

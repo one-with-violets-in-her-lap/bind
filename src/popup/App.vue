@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { sendToContentScript } from '@/shared/lib/messages'
 
 function handleAddShortcut() {
@@ -7,7 +8,7 @@ function handleAddShortcut() {
             return
         }
 
-        sendToContentScript(tabs[0].id, { messageType: 'add-shortcut' })
+        sendToContentScript(tabs[0].id, { messageType: 'shortcut-creation-start' })
 
         window.close()
     })
@@ -15,9 +16,11 @@ function handleAddShortcut() {
 </script>
 
 <template>
-    <h1>Bind</h1>
+    <main class="popup-main-content">
+        <h1 class="heading-h1 mb-2">Bind</h1>
 
-    <button @click="handleAddShortcut">Add shortcut</button>
+        <AppButton @click="handleAddShortcut">Add shortcut</AppButton>
+    </main>
 </template>
 
 <style scoped></style>

@@ -1,0 +1,16 @@
+@import url('@/shared/styles/main.css');
+
+body {
+    background-color: var(--color-background-glass);
+    width: 370px;
+}
+
+.popup-main-content {
+    background-color: var(--color-background);
+    backdrop-filter: blur(8px);
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 40%, transparent);
+    border-radius: 16px;
+    margin: 10px;
+    padding: 22px;
+    min-height: 280px;
+}
