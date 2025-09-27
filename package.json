@@ -1,18 +1,26 @@
 {
-  "name": "bind-extension-new",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "devDependencies": {
-    "@eckidevs/bun-plugin-vue": "^0.3.0",
-    "@types/bun": "latest",
-    "@types/chrome": "^0.1.12",
-    "@types/web": "^0.0.270"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "vue": "^3.5.22"
-  }
+    "name": "bind-extension-new",
+    "module": "index.ts",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "build": "bun build.ts",
+        "dev": "nodemon --watch ./src/**/* -x \"bun build.ts\"",
+        "format": "prettier . -w"
+    },
+    "devDependencies": {
+        "@eckidevs/bun-plugin-vue": "^0.3.0",
+        "@types/bun": "latest",
+        "@types/chrome": "^0.1.12",
+        "@types/web": "^0.0.270",
+        "bun-style-loader": "^0.4.0",
+        "nodemon": "^3.1.10",
+        "prettier": "3.6.2"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "vue": "^3.5.22"
+    }
 }

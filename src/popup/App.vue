@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { sendToContentScript } from '@/shared/messages'
+import { sendToContentScript } from '@/shared/lib/messages'
 
 function handleAddShortcut() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {

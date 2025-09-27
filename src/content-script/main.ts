@@ -1,12 +1,33 @@
-import '../../public/manifest.json' with { type: 'json' }
-import { addContentScriptMessageListener } from '@/shared/messages'
+import styles from './page.css'
+
+import { addContentScriptMessageListener } from '@/shared/lib/messages'
 
 function startContentScript() {
-    console.log('[bind] yo')
+    console.log('[bind] yo ', styles,)
 
-    addContentScriptMessageListener('add-shortcut', () => {
-        document.body.innerHTML = `<h1>Your page is gone + computer hacked</h1>`
-    })
+    document.head.insertAdjacentHTML('beforeend', `<style>${styles}</style>`)
+
+    addContentScriptMessageListener('add-shortcut', () => startShortcutCreation())
+}
+
+function startShortcutCreation() {
+    const abortController = new AbortController()
+
+    document.body.classList.add('bind__select-mode')
+
+    let previousHighlightedElement: HTMLElement | undefined = undefined
+    document.addEventListener(
+        'mousemove',
+        event => {
+            previousHighlightedElement?.classList.remove('bind__highlighted')
+
+            if (event.target instanceof HTMLElement) {
+                event.target.classList.add('bind__highlighted')
+                previousHighlightedElement = event.target
+            }
+        },
+        { signal: abortController.signal },
+    )
 }
 
 if (window.bindExtension === undefined) {
