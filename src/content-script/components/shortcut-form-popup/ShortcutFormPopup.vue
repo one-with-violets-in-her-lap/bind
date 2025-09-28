@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { useWindowSize } from '@/content-script/utils/window-size'
 import HotkeyInput from '@/content-script/components/hotkey-input/HotkeyInput.vue'
+import type { Key } from '@/content-script/utils/keys'
 
 const ANCHOR_SPACING = 14
 
@@ -15,6 +16,8 @@ const props = defineProps<{
 const emit = defineEmits<{
     (event: 'cancel'): void
 }>()
+
+const hotkey = ref<Key[] | null>(null)
 
 const windowSize = useWindowSize()
 
@@ -73,10 +76,10 @@ const safePositionY = computed(() => {
             }}
         </div>
 
-        <HotkeyInput class="mb-6" />
+        <HotkeyInput v-model="hotkey" class="mb-6" />
 
         <div class="actions">
-            <AppButton> Create </AppButton>
+            <AppButton :disabled="hotkey === null"> Create </AppButton>
 
             <AppButton variant="secondary" @click="emit('cancel')">
                 Cancel

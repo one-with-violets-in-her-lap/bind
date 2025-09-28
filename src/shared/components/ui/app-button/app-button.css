@@ -14,7 +14,7 @@
     border: 0.8px solid var(--color-foreground-muted);
 }
 
-.app-button.app-button-default:hover {
+.app-button.app-button-default:hover:not(:disabled) {
     opacity: 0.9;
     box-shadow: 0px 0px 16px 0px
         color-mix(in srgb, var(--color-foreground) 20%, transparent);
@@ -26,6 +26,16 @@
     border: 0.8px solid var(--color-foreground-muted);
 }
 
-.app-button.app-button-secondary:hover {
+.app-button.app-button-secondary:hover:not(:disabled) {
     background-color: var(--color-background-glass);
+}
+
+.app-button:disabled {
+    opacity: 0.5;
+}
+
+.app-button:disabled:hover {
+    opacity: 0.5;
+    box-shadow: none;
+    cursor: not-allowed;
 }

@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import PlusKeyIcon from '@/shared/components/ui/icons/PlusKeyIcon.vue'
 import { type Key, KeyCode } from '@/content-script/utils/keys'
 
-const modelValue = defineModel<Key[] | null>({ default: null })
+const modelValue = defineModel<Key[] | null>('modelValue', { default: null })
 
 const isWaitingForKeyInput = ref(false)
 
@@ -31,7 +31,7 @@ function handleKeyDown(event: KeyboardEvent) {
         modelValue.value = []
     }
 
-    if (!modelValue.value) {
+    if (modelValue.value === null) {
         modelValue.value = []
     }
 
