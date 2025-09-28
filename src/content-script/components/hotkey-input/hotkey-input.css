@@ -1,5 +1,5 @@
 .hotkey-input {
-    height: 38px;
+    min-height: 38px;
     padding: 7px 16px;
     border-radius: 6px;
     background-color: var(--color-background-glass);
@@ -28,6 +28,14 @@
 
 .hotkey-input.hotkey-input-active {
     border-color: var(--color-foreground);
+}
+
+.hotkey-value {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
 .hotkey-input-placeholder {

@@ -14,6 +14,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
+    (event: 'submit', hotkey: Key[]): void
     (event: 'cancel'): void
 }>()
 
@@ -79,7 +80,12 @@ const safePositionY = computed(() => {
         <HotkeyInput v-model="hotkey" class="mb-6" />
 
         <div class="actions">
-            <AppButton :disabled="hotkey === null"> Create </AppButton>
+            <AppButton
+                :disabled="hotkey === null"
+                @click="hotkey ? emit('submit', hotkey) : {}"
+            >
+                Create
+            </AppButton>
 
             <AppButton variant="secondary" @click="emit('cancel')">
                 Cancel

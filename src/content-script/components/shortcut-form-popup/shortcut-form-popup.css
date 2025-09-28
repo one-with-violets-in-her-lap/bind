@@ -6,13 +6,16 @@
     z-index: 9999;
 
     position: fixed;
-    width: 340px;
+    min-width: 340px;
+    max-width: 430px;
+    width: fit-content;
     padding: 20px 30px;
     border-radius: 14px;
 }
 
 .shortcut-title {
     font-size: 0.76rem;
+    max-width: 332px;
     color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
     display: -webkit-box;
     -webkit-box-orient: vertical;

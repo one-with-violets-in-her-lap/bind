@@ -6,6 +6,7 @@
     "scripts": {
         "build": "bun build.ts",
         "dev": "nodemon --watch ./src/ --ext css,ts,js,vue,json -x \"bun build.ts\"",
+        "dev-pages": "bun ./src/developer-pages/dev-pages-server.ts",
         "format": "prettier . -w"
     },
     "devDependencies": {

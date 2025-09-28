@@ -3,7 +3,13 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import PlusKeyIcon from '@/shared/components/ui/icons/PlusKeyIcon.vue'
 import { type Key, KeyCode } from '@/content-script/utils/keys'
 
-const modelValue = defineModel<Key[] | null>('modelValue', { default: null })
+const props = defineProps<{
+    modelValue: Key[] | null
+}>()
+
+const emit = defineEmits<{
+    (event: 'update:modelValue', newValue: Key[]): void
+}>()
 
 const isWaitingForKeyInput = ref(false)
 
@@ -26,40 +32,50 @@ function handleKeyDown(event: KeyboardEvent) {
         return
     }
 
+    let hotkey = props.modelValue
+
     if (!keyInputStarted) {
         keyInputStarted = true
-        modelValue.value = []
+        hotkey = []
     }
 
-    if (modelValue.value === null) {
-        modelValue.value = []
+    if (hotkey === null) {
+        hotkey = []
     }
 
-    if (event.ctrlKey && !modelValue.value.some(key => key.code === KeyCode.Ctrl)) {
-        modelValue.value.push({ code: KeyCode.Ctrl, name: 'Ctrl' })
+    if (event.ctrlKey && !hotkey.some(key => key.code === KeyCode.Ctrl)) {
+        hotkey.push({
+            code: KeyCode.Ctrl,
+            name: 'Ctrl',
+        })
     }
 
-    if (event.shiftKey && !modelValue.value.some(key => key.code === KeyCode.Shift)) {
-        modelValue.value.push({ code: KeyCode.Shift, name: 'Shift' })
+    if (event.shiftKey && !hotkey.some(key => key.code === KeyCode.Shift)) {
+        hotkey.push({
+            code: KeyCode.Shift,
+            name: 'Shift',
+        })
     }
 
-    if (event.altKey && !modelValue.value.some(key => key.code === KeyCode.Alt)) {
-        modelValue.value.push({ code: KeyCode.Alt, name: 'Alt' })
+    if (event.altKey && !hotkey.some(key => key.code === KeyCode.Alt)) {
+        hotkey.push({ code: KeyCode.Alt, name: 'Alt' })
     }
 
-    if (
-        event.metaKey &&
-        !modelValue.value.some(key => key.code === KeyCode.LeftWindowKey)
-    ) {
-        modelValue.value.push({ code: KeyCode.LeftWindowKey, name: '⌘' })
+    if (event.metaKey && !hotkey.some(key => key.code === KeyCode.LeftWindowKey)) {
+        hotkey.push({
+            code: KeyCode.LeftWindowKey,
+            name: '⌘',
+        })
     }
 
-    if (!modelValue.value.some(key => key.code === event.keyCode)) {
-        modelValue.value.push({
+    if (!hotkey.some(key => key.code === event.keyCode)) {
+        hotkey.push({
             code: event.keyCode,
             name: event.key.slice(0, 1).toUpperCase() + event.key.slice(1),
         })
     }
+
+    emit('update:modelValue', hotkey)
 }
 
 function handleKeyUp() {
@@ -91,15 +107,15 @@ onUnmounted(() => {
             Click to add a hotkey
         </div>
 
-        <div v-if="!isWaitingForKeyInput && modelValue" class="hotkey-value">
-            <kbd v-for="(key, index) in modelValue">
+        <kbd v-if="!isWaitingForKeyInput && modelValue" class="hotkey-value">
+            <template v-for="(key, index) in modelValue">
                 <kbd class="hotkey-key">
                     {{ key.name }}
                 </kbd>
 
                 <span v-if="index < modelValue.length - 1"> + </span>
-            </kbd>
-        </div>
+            </template>
+        </kbd>
 
         <span v-show="isWaitingForKeyInput"> Press hotkey... </span>
     </button>
