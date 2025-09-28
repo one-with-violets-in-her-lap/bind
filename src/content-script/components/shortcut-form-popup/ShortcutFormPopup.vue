@@ -59,12 +59,17 @@ const safePositionY = computed(() => {
         <h2 class="heading-h2 mb-1 shortcut-form-heading">New shortcut</h2>
 
         <div class="shortcut-title mb-6">
-	    Click element "{{
-                selectedElement.textContent ||
-                selectedElement.title ||
-                selectedElement.id ||
-                selectedElement.className
-            }}"
+            Click element
+            {{
+                '"' +
+                (
+                    selectedElement.textContent ||
+                    selectedElement.title ||
+                    selectedElement.id ||
+                    selectedElement.className
+                ).trim() +
+                '"'
+            }}
         </div>
 
         <div class="actions">

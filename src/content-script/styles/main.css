@@ -31,3 +31,7 @@
 
     transition: all 0.2s ease;
 }
+
+.hovered-element-highlight.selected-element-highlight {
+    transition: none;
+}

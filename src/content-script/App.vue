@@ -4,6 +4,7 @@ import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { addContentScriptMessageListener } from '@/shared/lib/messages'
 import { useHoveredElement } from './utils/hovered-element'
 import ShortcutFormPopup from './components/shortcut-form-popup/ShortcutFormPopup.vue'
+import { useBoundingBox } from './utils/bounding-box'
 
 const state = ref<
     | {
@@ -31,10 +32,15 @@ watch(hoveredElement, (newElement, previousElement) => {
     })
 })
 
+const { boundingBox: hoveredElementBoundingBox } = useBoundingBox(hoveredElement)
+const { boundingBox: selectedElementBoundingBox } = useBoundingBox(() =>
+    state.value.status === 'form' ? state.value.selectedElement : null,
+)
+
 const boundingClientRect = computed(() =>
     state.value.status === 'form'
-        ? state.value.selectedElement.getBoundingClientRect()
-        : hoveredElement.value?.getBoundingClientRect(),
+        ? selectedElementBoundingBox.value
+        : hoveredElementBoundingBox.value,
 )
 
 const abortController = new AbortController()
@@ -97,6 +103,7 @@ async function handleElementSelection(event: Event) {
                 boundingClientRect
             "
             class="hovered-element-highlight"
+            :class="{ 'selected-element-highlight': state.status === 'form' }"
             :style="
                 `left: ${boundingClientRect.x}px; ` +
                 `top: ${boundingClientRect.y}px; ` +
@@ -109,9 +116,9 @@ async function handleElementSelection(event: Event) {
     <Transition name="scale" appear>
         <ShortcutFormPopup
             v-if="state.status === 'form' && boundingClientRect"
-	    :anchor="boundingClientRect"
-	    :selected-element="state.selectedElement"
-	    @cancel="handleCancel"
-	</ShortcutFormPopup>
+            :anchor="boundingClientRect"
+            :selected-element="state.selectedElement"
+            @cancel="handleCancel"
+        />
     </Transition>
 </template>
