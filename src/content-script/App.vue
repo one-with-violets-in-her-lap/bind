@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useHoveredElement } from '@/content-script/utils/hovered-element'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { addContentScriptMessageListener } from '@/shared/lib/messages'
-import ShortcutFormPopup from './components/ShortcutFormPopup.vue'
+import { useHoveredElement } from './utils/hovered-element'
+import ShortcutFormPopup from './components/shortcut-form-popup/ShortcutFormPopup.vue'
 
 const state = ref<
     | {
@@ -111,6 +111,7 @@ async function handleElementSelection(event: Event) {
             v-if="state.status === 'form' && boundingClientRect"
 	    :anchor="boundingClientRect"
 	    :selected-element="state.selectedElement"
+	    @cancel="handleCancel"
 	</ShortcutFormPopup>
     </Transition>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useWindowSize } from '../utils/window-size'
+import { useWindowSize } from '@/content-script/utils/window-size'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 
 const ANCHOR_SPACING = 14
@@ -9,6 +9,10 @@ const props = defineProps<{
     anchor: { x: number; y: number; width: number; height: number }
 
     selectedElement: HTMLElement
+}>()
+
+const emit = defineEmits<{
+    (event: 'cancel'): void
 }>()
 
 const windowSize = useWindowSize()
@@ -52,16 +56,23 @@ const safePositionY = computed(() => {
         ref="popupElementRef"
         :style="`left: ${safePositionX}px; ` + `top: ${safePositionY}px; `"
     >
-        <h2 class="heading-h2 mb-4">
-            New shortcut -
-            {{
+        <h2 class="heading-h2 mb-1 shortcut-form-heading">New shortcut</h2>
+
+        <div class="shortcut-title mb-6">
+	    Click element "{{
                 selectedElement.textContent ||
                 selectedElement.title ||
                 selectedElement.id ||
                 selectedElement.className
-            }}
-        </h2>
+            }}"
+        </div>
 
-        <AppButton> Create </AppButton>
+        <div class="actions">
+            <AppButton> Create </AppButton>
+
+            <AppButton variant="secondary" @click="emit('cancel')">
+                Cancel
+            </AppButton>
+        </div>
     </div>
 </template>
