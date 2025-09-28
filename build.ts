@@ -1,12 +1,17 @@
-import { cp } from 'fs/promises'
+import { cp, rm, exists } from 'fs/promises'
 import vuePlugin from '@eckidevs/bun-plugin-vue'
 import styleLoader from 'bun-style-loader'
 
 const STATIC_FILES_DIRECTORY = './public/'
+const OUT_DIRECTORY = './dist'
+
+if (await exists(OUT_DIRECTORY)) {
+    await rm(OUT_DIRECTORY, { recursive: true })
+}
 
 Bun.build({
     entrypoints: ['./src/content-script/main.ts', './src/popup/index.html'],
-    outdir: './dist',
+    outdir: OUT_DIRECTORY,
     plugins: [
         vuePlugin(),
         styleLoader(),
