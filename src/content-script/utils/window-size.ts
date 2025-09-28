@@ -11,10 +11,10 @@ export function useWindowSize() {
 
     onMounted(() => {
         updateSize()
-        window.addEventListener('resize', updateSize)
+        addEventListener('resize', updateSize)
     })
 
-    onUnmounted(() => window.removeEventListener('resize', updateSize))
+    onUnmounted(() => removeEventListener('resize', updateSize))
 
     return { width, height }
 }

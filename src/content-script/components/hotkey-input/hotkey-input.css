@@ -1,0 +1,38 @@
+.hotkey-input {
+    height: 38px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    background-color: var(--color-background-glass);
+    color: var(--color-foreground);
+    border: 0.7px solid var(--color-foreground-muted);
+    box-shadow: inset 0px 2px 12px rgba(255, 255, 255, 0.07);
+
+    font-size: 0.8rem;
+    font-weight: 300;
+
+    display: flex;
+    align-items: center;
+
+    transition:
+        border-color 0.15s ease,
+        transform 0.1s ease;
+}
+
+.hotkey-input:hover {
+    opacity: 0.8;
+}
+
+.hotkey-input:active {
+    transform: scale(1.05);
+}
+
+.hotkey-input.hotkey-input-active {
+    border-color: var(--color-foreground);
+}
+
+.hotkey-input-placeholder {
+    display: flex;
+    color: var(--color-foreground-secondary);
+    align-items: center;
+    gap: 10px;
+}

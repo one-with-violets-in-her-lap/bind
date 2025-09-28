@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useWindowSize } from '@/content-script/utils/window-size'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
+import { useWindowSize } from '@/content-script/utils/window-size'
+import HotkeyInput from '@/content-script/components/hotkey-input/HotkeyInput.vue'
 
 const ANCHOR_SPACING = 14
 
@@ -58,7 +59,7 @@ const safePositionY = computed(() => {
     >
         <h2 class="heading-h2 mb-1 shortcut-form-heading">New shortcut</h2>
 
-        <div class="shortcut-title mb-6">
+        <div class="shortcut-title mb-4">
             Click element
             {{
                 '"' +
@@ -71,6 +72,8 @@ const safePositionY = computed(() => {
                 '"'
             }}
         </div>
+
+        <HotkeyInput class="mb-6" />
 
         <div class="actions">
             <AppButton> Create </AppButton>
