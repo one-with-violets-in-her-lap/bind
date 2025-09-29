@@ -1,2 +1,2 @@
 [serve.static]
-plugins = ["./vue-plugin.ts", "./style-loader-plugin.ts"]
+plugins = ["./plugins/vue.ts", "./plugins/styles.ts"]

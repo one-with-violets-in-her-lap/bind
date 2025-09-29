@@ -1,4 +1,4 @@
-import mainPage from './index.html'
+import mainPage from './developer-pages/index.html'
 
 import { serve } from 'bun'
 
