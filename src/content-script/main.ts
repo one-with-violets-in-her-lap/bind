@@ -2,7 +2,7 @@ import styles from './styles/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import { addContentScriptMessageListener } from '@/shared/lib/messages'
+import { addContentScriptMessageListener } from '@/shared/utils/messages'
 
 function startContentScript() {
     console.log('[bind] yo')

@@ -1,3 +1,5 @@
+import type { Shortcut } from '@/shared/models/shortcut'
+
 interface BaseExtensionMessage {
     messageType: string
     data?: any
@@ -41,6 +43,7 @@ export function addContentScriptMessageListener<
 
 interface NewShortcutMessage extends BaseExtensionMessage {
     messageType: 'new-shortcut'
+    data: Shortcut
 }
 
 export type MessageToPopup = NewShortcutMessage

@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import { addContentScriptMessageListener } from '@/shared/lib/messages'
+import { addContentScriptMessageListener, sendToPopup } from '@/shared/utils/messages'
 import { useHoveredElement } from './utils/hovered-element'
 import ShortcutFormPopup from './components/shortcut-form-popup/ShortcutFormPopup.vue'
 import { useBoundingBox } from './utils/bounding-box'
+import type { Shortcut } from '@/shared/models/shortcut'
 
 const state = ref<
     | {
@@ -16,6 +17,10 @@ const state = ref<
     | {
           status: 'form'
           selectedElement: HTMLElement
+      }
+    | {
+          status: 'success'
+          createdShortcut: Shortcut
       }
 >({ status: 'selection' })
 
@@ -65,6 +70,11 @@ function handleShortcutCreationStart() {
 
 function handleCancel() {
     state.value = { status: 'inactive' }
+}
+
+function handleNewShortcut(shortcut: Shortcut) {
+    sendToPopup({ messageType: 'new-shortcut', data: shortcut })
+    state.value = { status: 'success', createdShortcut: shortcut }
 }
 
 async function handleElementSelection(event: Event) {
@@ -119,6 +129,15 @@ async function handleElementSelection(event: Event) {
             :anchor="boundingClientRect"
             :selected-element="state.selectedElement"
             @cancel="handleCancel"
+            @submit="handleNewShortcut"
         />
+    </Transition>
+
+    <Transition name="scale" appear>
+        <div v-if="state.status === 'success'" class="status-popup">
+            <h2 class="heading-h2 mb-4">Shortcut created</h2>
+
+            <AppButton @click="handleCancel"> OK </AppButton>
+        </div>
     </Transition>
 </template>

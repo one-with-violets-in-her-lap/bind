@@ -1,13 +1,8 @@
 {
     "name": "bind-extension-new",
     "module": "index.ts",
-    "type": "module",
-    "private": true,
-    "scripts": {
-        "build": "bun build.ts",
-        "dev": "nodemon --watch ./src/ --ext css,ts,js,vue,json -x \"bun build.ts\"",
-        "dev-pages": "bun ./src/developer-pages/dev-pages-server.ts",
-        "format": "prettier . -w"
+    "dependencies": {
+        "vue": "^3.5.22"
     },
     "devDependencies": {
         "@eckidevs/bun-plugin-vue": "^0.3.0",
@@ -16,12 +11,16 @@
         "@types/web": "^0.0.270",
         "bun-style-loader": "^0.4.0",
         "nodemon": "^3.1.10",
-        "prettier": "3.6.2"
+        "prettier": "3.6.2",
+        "vue-tsc": "^3.1.0"
     },
-    "peerDependencies": {
-        "typescript": "^5"
+    "private": true,
+    "scripts": {
+        "build": "bun build.ts",
+        "dev": "nodemon --watch ./src/ --ext css,ts,js,vue,json -x \"bun build.ts\"",
+        "dev-pages": "bun ./src/developer-pages/dev-pages-server.ts",
+        "type-check": "vue-tsc --noEmit",
+        "format": "prettier . -w"
     },
-    "dependencies": {
-        "vue": "^3.5.22"
-    }
+    "type": "module"
 }

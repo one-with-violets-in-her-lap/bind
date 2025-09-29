@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import { sendToContentScript } from '@/shared/lib/messages'
+import { sendToContentScript } from '@/shared/utils/messages'
 
 function handleAddShortcut() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
