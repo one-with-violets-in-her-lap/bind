@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import type { Shortcut } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import type { Key } from '@/shared/utils/keys'
-import type { Shortcut } from '@/shared/models/shortcut'
-import { useWindowSize } from '@/content-script/utils/window-size'
+import { useWindowSize } from '@/shared/utils/window-size'
+import { getUniqueSelector } from '@/shared/utils/selector'
 import HotkeyInput from '@/content-script/components/hotkey-input/HotkeyInput.vue'
-import { getUniqueSelector } from '@/content-script/utils/selector'
 
 const ANCHOR_SPACING = 14
 

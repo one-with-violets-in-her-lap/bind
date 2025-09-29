@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import type { Shortcut } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { addContentScriptMessageListener, sendToPopup } from '@/shared/utils/messages'
-import { useHoveredElement } from './utils/hovered-element'
-import ShortcutFormPopup from './components/shortcut-form-popup/ShortcutFormPopup.vue'
-import { useBoundingBox } from './utils/bounding-box'
-import type { Shortcut } from '@/shared/models/shortcut'
+import { useHoveredElement } from '@/shared/utils/hovered-element'
+import { useBoundingBox } from '@/shared/utils/bounding-box'
+import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'
 
 const state = ref<
     | {
