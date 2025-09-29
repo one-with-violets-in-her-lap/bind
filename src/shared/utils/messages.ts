@@ -46,18 +46,20 @@ interface NewShortcutMessage extends BaseExtensionMessage {
     data: Shortcut
 }
 
-export type MessageToPopup = NewShortcutMessage
+export type MessageToBackgroundScript = NewShortcutMessage
 
-export function sendToPopup(message: MessageToPopup) {
+export function sendToBackgroundScript(message: MessageToBackgroundScript) {
     return chrome.runtime.sendMessage(message)
 }
 
-export function addMessageToPopupListener<TMessage extends MessageToPopup>(
+export function addMessageToBackgroundScriptListener<
+    TMessage extends MessageToBackgroundScript,
+>(
     messageType: TMessage['messageType'],
     handler: (message: TMessage) => void,
     options: { signal?: AbortSignal } = {},
 ) {
-    function listener(message: MessageToPopup) {
+    function listener(message: MessageToBackgroundScript) {
         if (message.messageType === messageType) {
             handler(message as TMessage)
         }

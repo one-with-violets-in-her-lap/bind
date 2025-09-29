@@ -1,11 +1,15 @@
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue'
-import type { Shortcut } from '@/shared/models/shortcut'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import type { Shortcut, ShortcutInput } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import { addContentScriptMessageListener, sendToPopup } from '@/shared/utils/messages'
+import {
+    addContentScriptMessageListener,
+    sendToBackgroundScript,
+} from '@/shared/utils/messages'
 import { useHoveredElement } from '@/shared/utils/hovered-element'
 import { useBoundingBox } from '@/shared/utils/bounding-box'
 import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'
+import { extensionStorage } from '@/shared/utils/storage'
 
 const state = ref<
     | {
@@ -73,14 +77,23 @@ function handleCancel() {
     state.value = { status: 'inactive' }
 }
 
-function handleNewShortcut(shortcut: Shortcut, selectedElement: HTMLElement) {
-    // sendToPopup(
-    //     JSON.parse(JSON.stringify({ messageType: 'new-shortcut', data: shortcut })),
-    // )
-    state.value = { status: 'success', createdShortcut: shortcut, selectedElement }
+async function handleNewShortcut(
+    shortcut: ShortcutInput,
+    selectedElement: HTMLElement,
+) {
+    const existingShortcuts = (await extensionStorage.get('shortcuts')) || []
+
+    const newShortcut = {
+        id: (existingShortcuts.at(-1)?.id || 0) + 1,
+        ...JSON.parse(JSON.stringify(shortcut)),
+    }
+
+    await extensionStorage.set({ shortcuts: [...existingShortcuts, newShortcut] })
+
+    state.value = { status: 'success', createdShortcut: newShortcut, selectedElement }
 
     setTimeout(() => {
-	state.value = { status: 'inactive' }
+        state.value = { status: 'inactive' }
     }, 700)
 }
 

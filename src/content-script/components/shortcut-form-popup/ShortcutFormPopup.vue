@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { Shortcut } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import type { Key } from '@/shared/utils/keys'
 import { useWindowSize } from '@/shared/utils/window-size'
 import { getUniqueSelector } from '@/shared/utils/selector'
 import CheckMark from '@/shared/components/ui/icons/CheckMark.vue'
+import type { ShortcutInput } from '@/shared/models/shortcut'
 import HotkeyInput from '@/content-script/components/hotkey-input/HotkeyInput.vue'
 
 const ANCHOR_SPACING = 14
@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-    (event: 'submit', shortcut: Shortcut, selectedElement: HTMLElement): void
+    (event: 'submit', shortcut: ShortcutInput, selectedElement: HTMLElement): void
     (event: 'cancel'): void
 }>()
 
@@ -68,6 +68,24 @@ const safePositionY = computed(() => {
         return props.anchor.y
     }
 })
+
+function handleSubmit() {
+    if (!hotkey.value) {
+        return
+    }
+
+    emit(
+        'submit',
+        {
+            title: `Click element ${elementText.value}`,
+            type: 'click',
+            hotkey: hotkey.value,
+            targetSelector: getUniqueSelector(props.selectedElement),
+            siteUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname}`,
+        },
+        props.selectedElement,
+    )
+}
 </script>
 
 <template>
@@ -92,24 +110,7 @@ const safePositionY = computed(() => {
             <HotkeyInput v-model="hotkey" class="mb-6" />
 
             <div class="actions">
-                <AppButton
-                    :disabled="hotkey === null"
-                    @click="
-                        hotkey
-                            ? emit(
-                                  'submit',
-                                  {
-                                      title: `Click element ${elementText}`,
-                                      type: 'click',
-                                      hotkey,
-                                      targetSelector:
-                                          getUniqueSelector(selectedElement),
-                                  },
-                                  selectedElement,
-                              )
-                            : {}
-                    "
-                >
+                <AppButton :disabled="hotkey === null" @click="handleSubmit">
                     Create
                 </AppButton>
 

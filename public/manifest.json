@@ -3,7 +3,7 @@
     "name": "Bind",
     "version": "0.0.1",
 
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage"],
 
     "description": "Shortcuts for anything in browser. Bind a hotkey to a button click",
 
