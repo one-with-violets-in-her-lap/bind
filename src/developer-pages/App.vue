@@ -10,6 +10,7 @@ const mockElement = document.createElement('div')
     <ShortcutFormPopup
         :anchor="{ x: 0, y: 0, height: 0, width: 0 }"
         :selected-element="mockElement"
+        status="success"
         class="shortcut-form-mock"
     />
 </template>

@@ -5,18 +5,19 @@ import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import type { Key } from '@/shared/utils/keys'
 import { useWindowSize } from '@/shared/utils/window-size'
 import { getUniqueSelector } from '@/shared/utils/selector'
+import CheckMark from '@/shared/components/ui/icons/CheckMark.vue'
 import HotkeyInput from '@/content-script/components/hotkey-input/HotkeyInput.vue'
 
 const ANCHOR_SPACING = 14
 
 const props = defineProps<{
+    status: 'form' | 'success'
     anchor: { x: number; y: number; width: number; height: number }
-
     selectedElement: HTMLElement
 }>()
 
 const emit = defineEmits<{
-    (event: 'submit', shortcut: Shortcut): void
+    (event: 'submit', shortcut: Shortcut, selectedElement: HTMLElement): void
     (event: 'cancel'): void
 }>()
 
@@ -72,38 +73,61 @@ const safePositionY = computed(() => {
 <template>
     <div
         class="shortcut-form-popup"
+        tabindex="0"
+        autofocus
         ref="popupElementRef"
         :style="`left: ${safePositionX}px; ` + `top: ${safePositionY}px; `"
     >
-        <h2 class="heading-h2 mb-1 shortcut-form-heading">New shortcut</h2>
+        <div
+            class="shortcut-form-content"
+            :class="{ 'shortcut-form-content-hidden': status !== 'form' }"
+        >
+            <h2 class="heading-h2 mb-1 shortcut-form-heading">New shortcut</h2>
 
-        <div class="shortcut-title mb-4">
-            Click element
-            {{ elementText }}
+            <div class="shortcut-title mb-4">
+                Click element
+                {{ elementText }}
+            </div>
+
+            <HotkeyInput v-model="hotkey" class="mb-6" />
+
+            <div class="actions">
+                <AppButton
+                    :disabled="hotkey === null"
+                    @click="
+                        hotkey
+                            ? emit(
+                                  'submit',
+                                  {
+                                      title: `Click element ${elementText}`,
+                                      type: 'click',
+                                      hotkey,
+                                      targetSelector:
+                                          getUniqueSelector(selectedElement),
+                                  },
+                                  selectedElement,
+                              )
+                            : {}
+                    "
+                >
+                    Create
+                </AppButton>
+
+                <AppButton variant="secondary" @click="emit('cancel')">
+                    Cancel
+                </AppButton>
+            </div>
         </div>
 
-        <HotkeyInput v-model="hotkey" class="mb-6" />
+        <div
+            class="shortcut-form-success"
+            :class="{ 'shortcut-form-success-visible': status === 'success' }"
+        >
+            <CheckMark />
 
-        <div class="actions">
-            <AppButton
-                :disabled="hotkey === null"
-                @click="
-                    hotkey
-                        ? emit('submit', {
-                              title: `Click element ${elementText}`,
-                              type: 'click',
-                              hotkey,
-                              targetSelector: getUniqueSelector(selectedElement),
-                          })
-                        : {}
-                "
-            >
-                Create
-            </AppButton>
+            <h2 class="heading-h2 mb-6 shortcut-form-heading">Shortcut created</h2>
 
-            <AppButton variant="secondary" @click="emit('cancel')">
-                Cancel
-            </AppButton>
+            <AppButton variant="default" @click="emit('cancel')"> OK </AppButton>
         </div>
     </div>
 </template>

@@ -23,3 +23,29 @@
     line-clamp: 2;
     overflow: hidden;
 }
+
+.shortcut-form-content {
+    transition: all 0.2s ease;
+}
+
+.shortcut-form-content-hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.shortcut-form-success {
+    pointer-events: none;
+    position: absolute;
+    width: calc(100% - 20px);
+    top: 20px;
+    left: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.2s ease;
+}
+
+.shortcut-form-success-visible {
+    pointer-events: all;
+    opacity: 1;
+    transform: translateY(0px);
+}

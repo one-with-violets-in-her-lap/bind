@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue'
 import type { Shortcut } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { addContentScriptMessageListener, sendToPopup } from '@/shared/utils/messages'
@@ -20,6 +20,7 @@ const state = ref<
       }
     | {
           status: 'success'
+          selectedElement: HTMLElement
           createdShortcut: Shortcut
       }
 >({ status: 'selection' })
@@ -27,7 +28,7 @@ const state = ref<
 const { hoveredElement } = useHoveredElement({ debouncedUpdate: true })
 
 watch(hoveredElement, (newElement, previousElement) => {
-    if (state.value.status === 'inactive') {
+    if (state.value.status !== 'selection') {
         return
     }
 
@@ -39,11 +40,11 @@ watch(hoveredElement, (newElement, previousElement) => {
 
 const { boundingBox: hoveredElementBoundingBox } = useBoundingBox(hoveredElement)
 const { boundingBox: selectedElementBoundingBox } = useBoundingBox(() =>
-    state.value.status === 'form' ? state.value.selectedElement : null,
+    'selectedElement' in state.value ? state.value.selectedElement : null,
 )
 
 const boundingClientRect = computed(() =>
-    state.value.status === 'form'
+    'selectedElement' in state.value
         ? selectedElementBoundingBox.value
         : hoveredElementBoundingBox.value,
 )
@@ -72,9 +73,15 @@ function handleCancel() {
     state.value = { status: 'inactive' }
 }
 
-function handleNewShortcut(shortcut: Shortcut) {
-    sendToPopup({ messageType: 'new-shortcut', data: shortcut })
-    state.value = { status: 'success', createdShortcut: shortcut }
+function handleNewShortcut(shortcut: Shortcut, selectedElement: HTMLElement) {
+    // sendToPopup(
+    //     JSON.parse(JSON.stringify({ messageType: 'new-shortcut', data: shortcut })),
+    // )
+    state.value = { status: 'success', createdShortcut: shortcut, selectedElement }
+
+    setTimeout(() => {
+	state.value = { status: 'inactive' }
+    }, 700)
 }
 
 async function handleElementSelection(event: Event) {
@@ -125,19 +132,15 @@ async function handleElementSelection(event: Event) {
 
     <Transition name="scale" appear>
         <ShortcutFormPopup
-            v-if="state.status === 'form' && boundingClientRect"
-            :anchor="boundingClientRect"
+            v-if="
+                (state.status === 'form' || state.status === 'success') &&
+                boundingClientRect
+            "
+            :status="state.status"
             :selected-element="state.selectedElement"
+            :anchor="boundingClientRect"
             @cancel="handleCancel"
             @submit="handleNewShortcut"
         />
-    </Transition>
-
-    <Transition name="scale" appear>
-        <div v-if="state.status === 'success'" class="status-popup">
-            <h2 class="heading-h2 mb-4">Shortcut created</h2>
-
-            <AppButton @click="handleCancel"> OK </AppButton>
-        </div>
     </Transition>
 </template>
