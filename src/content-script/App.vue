@@ -26,7 +26,7 @@ const state = ref<
           selectedElement: HTMLElement
           createdShortcut: ShortcutInput
       }
->({ status: 'selection' })
+>({ status: 'inactive' })
 
 const { hoveredElement } = useHoveredElement({ debouncedUpdate: true })
 

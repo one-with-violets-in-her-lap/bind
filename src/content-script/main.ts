@@ -3,25 +3,15 @@ import styles from './styles/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-import { addContentScriptMessageListener } from '@/shared/utils/messages'
-import { extensionStorage } from '@/shared/utils/storage'
 import { useShortcutsStore } from '@/content-script/stores/shortcuts'
+import { ShortcutsService } from '@/content-script/services/shortcuts'
+import { extensionStorage } from '@/shared/utils/storage'
 import { setupHotkeyListener } from '@/shared/utils/hotkeys'
 
 function startContentScript() {
     console.log('[bind] yo')
 
-    let isAppMounted = false
-
-    addContentScriptMessageListener('shortcut-creation-start', () => {
-        if (isAppMounted) {
-            return
-        }
-
-        mountContentScriptApp()
-
-        isAppMounted = true
-    })
+    mountContentScriptApp()
 }
 
 function mountContentScriptApp() {
@@ -45,13 +35,18 @@ function mountContentScriptApp() {
     createApp(App).use(createPinia()).mount(appContainer)
 
     extensionStorage.get('shortcuts').then(shortcuts => {
-        console.log('Loaded shortcuts')
+        console.log('Loading shortcuts', shortcuts)
         const shortcutsStore = useShortcutsStore()
         shortcutsStore.shortcuts = shortcuts || []
         shortcutsStore.isPending = false
-    })
 
-    setupHotkeyListener(hotkey => console.log(JSON.stringify(hotkey)))
+        if (shortcuts) {
+            const shortcutsService = new ShortcutsService()
+            setupHotkeyListener((hotkey, event) =>
+                shortcutsService.handleHotkey(hotkey, event),
+            )
+        }
+    })
 }
 
 if (window.bindExtension === undefined) {
