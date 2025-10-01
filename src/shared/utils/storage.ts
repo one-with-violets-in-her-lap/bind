@@ -14,9 +14,11 @@ export const extensionStorage = {
         return chrome.storage.local.set(items)
     },
 
-    async get<TKey extends keyof ExtensionStorage>(
+    get<TKey extends keyof ExtensionStorage>(
         key: TKey,
     ): Promise<ExtensionStorage[TKey]> {
-        return (await chrome.storage.local.get(key))[key]
+        return new Promise(resolve => {
+            chrome.storage.local.get(key, result => resolve(result[key]))
+        })
     },
 }

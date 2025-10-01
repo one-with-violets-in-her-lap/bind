@@ -4,7 +4,7 @@ import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import type { Key } from '@/shared/utils/hotkeys'
 import { useWindowSize } from '@/shared/utils/window-size'
 import { getUniqueSelector } from '@/shared/utils/selector'
-import CheckMark from '@/shared/components/ui/icons/CheckMark.vue'
+import CheckMarkIcon from '@/shared/components/ui/icons/CheckMarkIcon.vue'
 import type { ShortcutInput } from '@/shared/models/shortcut'
 import HotkeyInput from '@/content-script/components/hotkey-input/HotkeyInput.vue'
 
@@ -135,7 +135,7 @@ function handleSubmit() {
       class="shortcut-form-success"
       :class="{ 'shortcut-form-success-visible': status === 'success' }"
     >
-      <CheckMark />
+      <CheckMarkIcon />
 
       <h2 class="heading-h2 mb-6 shortcut-form-heading">
         Shortcut created

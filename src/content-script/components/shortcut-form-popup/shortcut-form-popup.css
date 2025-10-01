@@ -14,7 +14,7 @@
 }
 
 .shortcut-title {
-    font-size: 0.76rem;
+    font-size: 12.16px;
     max-width: 332px;
     color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
     display: -webkit-box;

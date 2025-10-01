@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import { useShortcutsStore } from '@/content-script/stores/shortcuts'
-import { ShortcutsService } from '@/content-script/services/shortcuts'
+import { ShortcutsService } from '@/shared/services/shortcuts'
 import { extensionStorage } from '@/shared/utils/storage'
 import { setupHotkeyListener } from '@/shared/utils/hotkeys'
 

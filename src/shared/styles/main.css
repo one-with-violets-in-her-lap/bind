@@ -1,5 +1,6 @@
 @import url('@/shared/styles/normalize.css');
 @import url('@/shared/components/ui/app-button/app-button.css');
+@import url('@/shared/components/shortcut-list/shortcut-list.css');
 
 body,
 html,
@@ -16,20 +17,24 @@ body,
 #bindApp {
     color: var(--color-foreground);
     font-weight: 300;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Geist', monospace;
 }
 
 .heading-h1 {
     font-weight: 300;
-    font-size: 1.2rem;
+    font-size: 24px;
 }
 
 .heading-h2 {
-    font-weight: 300;
-    font-size: 1rem;
+    font-weight: 400;
+    font-size: 18px;
 }
 
 /* Spacing */
+.mb-1 {
+    margin-bottom: 4px;
+}
+
 .mb-2 {
     margin-bottom: 8px;
 }
@@ -40,6 +45,10 @@ body,
 
 .mb-6 {
     margin-bottom: 24px;
+}
+
+.mb-8 {
+    margin-bottom: 32px;
 }
 
 .mb-12 {

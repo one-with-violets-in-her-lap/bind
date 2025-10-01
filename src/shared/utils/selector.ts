@@ -1,6 +1,6 @@
 export function getUniqueSelector(element: HTMLElement) {
     const path = []
-    
+
     let parent: HTMLElement | null = element.parentElement
 
     while ((parent = element.parentElement)) {

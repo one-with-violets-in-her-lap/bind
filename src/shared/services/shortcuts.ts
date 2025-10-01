@@ -2,11 +2,11 @@ import type { Key } from '@/shared/utils/hotkeys'
 import { useShortcutsStore } from '@/content-script/stores/shortcuts'
 import type { ClickShortcut, Shortcut } from '@/shared/models/shortcut'
 
-interface ShortcutExecutorService<TShortcut extends Shortcut> {
+interface ShortcutExecutor<TShortcut extends Shortcut> {
     executeShortcut(shortcut: TShortcut): void
 }
 
-class ClickShortcutExecutorService implements ShortcutExecutorService<ClickShortcut> {
+class ClickShortcutExecutor implements ShortcutExecutor<ClickShortcut> {
     executeShortcut(shortcut: ClickShortcut) {
         const target = document.querySelector(shortcut.targetSelector)
 
@@ -17,12 +17,22 @@ class ClickShortcutExecutorService implements ShortcutExecutorService<ClickShort
 
 const SHORTCUT_EXECUTOR_CLASSES: Record<
     Shortcut['type'],
-    new () => ShortcutExecutorService<Shortcut>
+    new () => ShortcutExecutor<Shortcut>
 > = {
-    click: ClickShortcutExecutorService,
+    click: ClickShortcutExecutor,
 }
 
 export class ShortcutsService {
+    groupShortcutsByUrl(currentSiteUrl: string) {
+        const shortcutsStore = useShortcutsStore()
+
+        return Object.groupBy(shortcutsStore.shortcuts, shortcut =>
+            this.checkIfUrlsMatch(shortcut.siteUrl, currentSiteUrl)
+                ? 'current-site'
+                : 'other',
+        )
+    }
+
     handleHotkey(hotkey: Key[], event: KeyboardEvent) {
         const shortcutsStore = useShortcutsStore()
 
@@ -31,11 +41,11 @@ export class ShortcutsService {
                 hotkey.some(hotkeyKey => hotkeyKey.code === key.code),
             )
 
-            const shortcutUrl = new URL(shortcut.siteUrl)
-            const urlMatches = window.location.protocol === shortcutUrl.protocol
-
-            if (hotkeyMatches && urlMatches) {
-                console.log(`Executing shortcut: ${shortcut}`)
+            if (
+                hotkeyMatches &&
+                this.checkIfUrlsMatch(shortcut.siteUrl, window.location.href)
+            ) {
+                console.log(`Executing shortcut: ${JSON.stringify(shortcut)}`)
 
                 event.stopPropagation()
                 event.preventDefault()
@@ -44,5 +54,15 @@ export class ShortcutsService {
                 executor.executeShortcut(shortcut)
             }
         })
+    }
+
+    private checkIfUrlsMatch(url1: string, url2: string) {
+        const parsedUrl1 = new URL(url1)
+        const parsedUrl2 = new URL(url2)
+
+        return (
+            parsedUrl1.origin === parsedUrl2.origin &&
+            parsedUrl1.pathname === parsedUrl2.pathname
+        )
     }
 }

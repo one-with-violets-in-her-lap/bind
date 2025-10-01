@@ -1,30 +1,86 @@
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import ShortcutList from '@/shared/components/shortcut-list/ShortcutList.vue'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
 import { sendToContentScript } from '@/shared/utils/messages'
+import { ShortcutsService } from '@/shared/services/shortcuts'
 
-function handleAddShortcut() {
+const shortcutsService = new ShortcutsService()
+
+const groupedShortcuts = computed(() =>
+    activeTab.value?.url
+        ? shortcutsService.groupShortcutsByUrl(activeTab.value.url)
+        : null,
+)
+
+const activeTab = ref<chrome.tabs.Tab>()
+
+onMounted(() => {
+    updateActiveTab()
+
+    chrome.tabs.onCreated.addListener(updateActiveTab)
+    chrome.tabs.onActivated.addListener(updateActiveTab)
+})
+
+onUnmounted(() => {
+    chrome.tabs.onCreated.removeListener(updateActiveTab)
+    chrome.tabs.onActivated.removeListener(updateActiveTab)
+})
+
+function updateActiveTab() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        if (!tabs || tabs[0]?.id === undefined) {
+        if (!tabs) {
             return
         }
 
-        sendToContentScript(tabs[0].id, { messageType: 'shortcut-creation-start' })
-
-        window.close()
+        activeTab.value = tabs[0]
     })
+}
+
+function handleAddShortcut() {
+    if (!activeTab.value?.id) {
+        throw new Error('Could not retrieve active tab id')
+    }
+
+    sendToContentScript(activeTab.value.id, {
+        messageType: 'shortcut-creation-start',
+    })
+
+    window.close()
 }
 </script>
 
 <template>
-  <main class="popup-main-content">
-    <h1 class="heading-h1 mb-2">
-      Bind
-    </h1>
+  <div class="popup">
+    <main class="popup-main-content">
+      <h1 class="heading-h1 popup-heading mb-4">
+        Bind
+      </h1>
 
-    <AppButton @click="handleAddShortcut">
-      Add shortcut
-    </AppButton>
-  </main>
+      <AppButton
+        class="mb-8"
+        @click="handleAddShortcut"
+      >
+        Add shortcut
+      </AppButton>
+
+      <section class="shortcuts-section mb-8">
+        <h2 class="heading-h2 mb-1">
+          On this site
+        </h2>
+
+        <ShortcutList :shortcuts="groupedShortcuts?.['current-site'] || []" />
+      </section>
+
+      <section class="shortcuts-section">
+        <h2 class="heading-h2 mb-1">
+          Other shortcuts
+        </h2>
+
+        <ShortcutList :shortcuts="groupedShortcuts?.['other'] || []" />
+      </section>
+    </main>
+  </div>
 </template>
 
 <style scoped></style>
