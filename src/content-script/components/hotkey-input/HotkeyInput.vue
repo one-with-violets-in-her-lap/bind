@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import PlusKeyIcon from '@/shared/components/ui/icons/PlusKeyIcon.vue'
-import { type Key, KeyCode } from '@/shared/utils/hotkeys'
+import { type Key, KeyCode, setupHotkeyListener } from '@/shared/utils/hotkeys'
 
-const props = defineProps<{
+defineProps<{
     modelValue: Key[] | null
 }>()
 
@@ -13,91 +13,39 @@ const emit = defineEmits<{
 
 const isWaitingForKeyInput = ref(false)
 
-let keyInputStarted = false
+let hotkeyListener: { remove: VoidFunction } | undefined = undefined
+onUnmounted(() => hotkeyListener?.remove())
 
-function handleKeyDown(event: KeyboardEvent) {
-    if (!isWaitingForKeyInput.value) {
-        return
-    }
+function startHotkeyInput() {
+    isWaitingForKeyInput.value = true
 
-    event.preventDefault()
-    event.stopPropagation()
+    hotkeyListener = setupHotkeyListener(
+        (hotkey, event) => {
+            if (event.keyCode === KeyCode.Escape) {
+                stopHotkeyInput()
+                return
+            }
 
-    if (event.key === 'Escape') {
-        isWaitingForKeyInput.value = false
-        return
-    }
+            event.preventDefault()
+            event.stopPropagation()
 
-    if (event.repeat) {
-        return
-    }
-
-    let hotkey = props.modelValue
-
-    if (!keyInputStarted) {
-        keyInputStarted = true
-        hotkey = []
-    }
-
-    if (hotkey === null) {
-        hotkey = []
-    }
-
-    if (event.ctrlKey && !hotkey.some(key => key.code === KeyCode.Ctrl)) {
-        hotkey.push({
-            code: KeyCode.Ctrl,
-            name: 'Ctrl',
-        })
-    }
-
-    if (event.shiftKey && !hotkey.some(key => key.code === KeyCode.Shift)) {
-        hotkey.push({
-            code: KeyCode.Shift,
-            name: 'Shift',
-        })
-    }
-
-    if (event.altKey && !hotkey.some(key => key.code === KeyCode.Alt)) {
-        hotkey.push({ code: KeyCode.Alt, name: 'Alt' })
-    }
-
-    if (event.metaKey && !hotkey.some(key => key.code === KeyCode.LeftWindowKey)) {
-        hotkey.push({
-            code: KeyCode.LeftWindowKey,
-            name: '⌘',
-        })
-    }
-
-    if (!hotkey.some(key => key.code === event.keyCode)) {
-        hotkey.push({
-            code: event.keyCode,
-            name: event.key.slice(0, 1).toUpperCase() + event.key.slice(1),
-        })
-    }
-
-    emit('update:modelValue', hotkey)
+            emit('update:modelValue', hotkey)
+        },
+        { onHotkeyEnd: stopHotkeyInput },
+    )
 }
 
-function handleKeyUp() {
+function stopHotkeyInput() {
     isWaitingForKeyInput.value = false
-    keyInputStarted = false
+    hotkeyListener?.remove()
 }
-
-onMounted(() => {
-    document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('keyup', handleKeyUp)
-})
-onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeyDown)
-    document.addEventListener('keyup', handleKeyUp)
-})
 </script>
 
 <template>
     <button
         class="hotkey-input"
         :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
-        @click="isWaitingForKeyInput = !isWaitingForKeyInput"
+        @click="startHotkeyInput"
     >
         <div
             class="hotkey-input-placeholder"

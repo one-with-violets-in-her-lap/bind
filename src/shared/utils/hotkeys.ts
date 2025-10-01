@@ -3,7 +3,12 @@ export interface Key {
     code: KeyCode
 }
 
-export function setupHotkeyListener(hotkeyHandler: (hotkey: Key[]) => void) {
+const HOTKEY_INPUT_TIMEOUT_MILLISECONDS = 300
+
+export function setupHotkeyListener(
+    hotkeyHandler: (hotkey: Key[], event: KeyboardEvent) => void,
+    options: { onHotkeyEnd?: (hotkey: Key[]) => void } = {},
+) {
     let pressedKeys: Key[] = []
     let keysResetTimeoutId: number | undefined = undefined
 
@@ -48,10 +53,14 @@ export function setupHotkeyListener(hotkeyHandler: (hotkey: Key[]) => void) {
         })
 
         keysResetTimeoutId = window.setTimeout(() => {
-            pressedKeys = []
-        }, 300)
+            if (options.onHotkeyEnd) {
+                options.onHotkeyEnd(pressedKeys)
+            }
 
-        hotkeyHandler(pressedKeys)
+            pressedKeys = []
+        }, HOTKEY_INPUT_TIMEOUT_MILLISECONDS)
+
+        hotkeyHandler(pressedKeys, event)
     }
 
     document.addEventListener('keydown', handleKeydown, { capture: true })
