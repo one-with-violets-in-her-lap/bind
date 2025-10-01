@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import type { Key } from '@/shared/utils/keys'
+import type { Key } from '@/shared/utils/hotkeys'
 import { useWindowSize } from '@/shared/utils/window-size'
 import { getUniqueSelector } from '@/shared/utils/selector'
 import CheckMark from '@/shared/components/ui/icons/CheckMark.vue'

@@ -3,6 +3,66 @@ export interface Key {
     code: KeyCode
 }
 
+export function setupHotkeyListener(hotkeyHandler: (hotkey: Key[]) => void) {
+    let pressedKeys: Key[] = []
+    let keysResetTimeoutId: number | undefined = undefined
+
+    function handleKeydown(event: KeyboardEvent) {
+        clearTimeout(keysResetTimeoutId)
+
+        if (event.repeat) {
+            return
+        }
+
+        if (event.ctrlKey && !pressedKeys.some(key => key.code === KeyCode.Ctrl)) {
+            pressedKeys.push({
+                code: KeyCode.Ctrl,
+                name: 'Ctrl',
+            })
+        }
+
+        if (event.shiftKey && !pressedKeys.some(key => key.code === KeyCode.Shift)) {
+            pressedKeys.push({
+                code: KeyCode.Shift,
+                name: 'Shift',
+            })
+        }
+
+        if (event.altKey && !pressedKeys.some(key => key.code === KeyCode.Alt)) {
+            pressedKeys.push({ code: KeyCode.Alt, name: 'Alt' })
+        }
+
+        if (
+            event.metaKey &&
+            !pressedKeys.some(key => key.code === KeyCode.LeftWindowKey)
+        ) {
+            pressedKeys.push({
+                code: KeyCode.LeftWindowKey,
+                name: '⌘',
+            })
+        }
+
+        pressedKeys.push({
+            code: event.keyCode,
+            name: event.key.slice(0, 1).toUpperCase() + event.key.slice(1),
+        })
+
+        keysResetTimeoutId = window.setTimeout(() => {
+            pressedKeys = []
+        }, 300)
+
+        hotkeyHandler(pressedKeys)
+    }
+
+    document.addEventListener('keydown', handleKeydown, { capture: true })
+
+    return {
+        remove() {
+            document.removeEventListener('keydown', handleKeydown, { capture: true })
+        },
+    }
+}
+
 export enum KeyCode {
     Backspace = 8,
     Tab = 9,

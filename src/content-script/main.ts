@@ -1,8 +1,12 @@
 import styles from './styles/main.css'
 
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import { addContentScriptMessageListener } from '@/shared/utils/messages'
+import { extensionStorage } from '@/shared/utils/storage'
+import { useShortcutsStore } from '@/content-script/stores/shortcuts'
+import { setupHotkeyListener } from '@/shared/utils/hotkeys'
 
 function startContentScript() {
     console.log('[bind] yo')
@@ -38,7 +42,16 @@ function mountContentScriptApp() {
 
     document.body.appendChild(shadowHost)
 
-    createApp(App).mount(appContainer)
+    createApp(App).use(createPinia()).mount(appContainer)
+
+    extensionStorage.get('shortcuts').then(shortcuts => {
+        console.log('Loaded shortcuts')
+        const shortcutsStore = useShortcutsStore()
+        shortcutsStore.shortcuts = shortcuts || []
+        shortcutsStore.isPending = false
+    })
+
+    setupHotkeyListener(hotkey => console.log(JSON.stringify(hotkey)))
 }
 
 if (window.bindExtension === undefined) {

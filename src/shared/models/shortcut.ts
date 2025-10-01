@@ -1,4 +1,4 @@
-import type { Key } from '@/shared/utils/keys'
+import type { Key } from '@/shared/utils/hotkeys'
 
 export interface BaseShortcut {
     id: number

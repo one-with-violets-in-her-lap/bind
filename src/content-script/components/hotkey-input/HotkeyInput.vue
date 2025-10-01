@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import PlusKeyIcon from '@/shared/components/ui/icons/PlusKeyIcon.vue'
-import { type Key, KeyCode } from '@/shared/utils/keys'
+import { type Key, KeyCode } from '@/shared/utils/hotkeys'
 
 const props = defineProps<{
     modelValue: Key[] | null
