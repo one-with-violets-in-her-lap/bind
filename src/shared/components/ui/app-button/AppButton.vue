@@ -9,7 +9,10 @@ withDefaults(
 )
 </script>
 <template>
-    <button class="app-button" :class="`app-button-${variant}`">
-        <slot />
-    </button>
+  <button
+    class="app-button"
+    :class="`app-button-${variant}`"
+  >
+    <slot />
+  </button>
 </template>

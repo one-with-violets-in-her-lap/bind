@@ -110,42 +110,58 @@ async function handleElementSelection(event: Event) {
 </script>
 
 <template>
-    <Transition name="scale" appear>
-        <div v-if="state.status === 'selection'" class="status-popup">
-            <h2 class="heading-h2 mb-4">Click on a button to bind</h2>
+  <Transition
+    name="scale"
+    appear
+  >
+    <div
+      v-if="state.status === 'selection'"
+      class="status-popup"
+    >
+      <h2 class="heading-h2 mb-4">
+        Click on a button to bind
+      </h2>
 
-            <AppButton @click="handleCancel"> Cancel </AppButton>
-        </div>
-    </Transition>
+      <AppButton @click="handleCancel">
+        Cancel
+      </AppButton>
+    </div>
+  </Transition>
 
-    <Transition name="fade" appear>
-        <div
-            v-if="
-                (state.status === 'selection' || state.status === 'form') &&
-                boundingClientRect
-            "
-            class="hovered-element-highlight"
-            :class="{ 'selected-element-highlight': state.status === 'form' }"
-            :style="
-                `left: ${boundingClientRect.x}px; ` +
-                `top: ${boundingClientRect.y}px; ` +
-                `width: ${boundingClientRect.width}px; ` +
-                `height: ${boundingClientRect.height}px`
-            "
-        ></div>
-    </Transition>
+  <Transition
+    name="fade"
+    appear
+  >
+    <div
+      v-if="
+        (state.status === 'selection' || state.status === 'form') &&
+          boundingClientRect
+      "
+      class="hovered-element-highlight"
+      :class="{ 'selected-element-highlight': state.status === 'form' }"
+      :style="
+        `left: ${boundingClientRect.x}px; ` +
+          `top: ${boundingClientRect.y}px; ` +
+          `width: ${boundingClientRect.width}px; ` +
+          `height: ${boundingClientRect.height}px`
+      "
+    />
+  </Transition>
 
-    <Transition name="scale" appear>
-        <ShortcutFormPopup
-            v-if="
-                (state.status === 'form' || state.status === 'success') &&
-                boundingClientRect
-            "
-            :status="state.status"
-            :selected-element="state.selectedElement"
-            :anchor="boundingClientRect"
-            @cancel="handleCancel"
-            @submit="handleNewShortcut"
-        />
-    </Transition>
+  <Transition
+    name="scale"
+    appear
+  >
+    <ShortcutFormPopup
+      v-if="
+        (state.status === 'form' || state.status === 'success') &&
+          boundingClientRect
+      "
+      :status="state.status"
+      :selected-element="state.selectedElement"
+      :anchor="boundingClientRect"
+      @cancel="handleCancel"
+      @submit="handleNewShortcut"
+    />
+  </Transition>
 </template>

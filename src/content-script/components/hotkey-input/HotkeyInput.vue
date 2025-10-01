@@ -13,7 +13,7 @@ const emit = defineEmits<{
 
 const isWaitingForKeyInput = ref(false)
 
-let hotkeyListener: { remove: VoidFunction } | undefined = undefined
+let hotkeyListener: { remove: () => void } | undefined = undefined
 onUnmounted(() => hotkeyListener?.remove())
 
 function startHotkeyInput() {
@@ -42,29 +42,32 @@ function stopHotkeyInput() {
 </script>
 
 <template>
-    <button
-        class="hotkey-input"
-        :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
-        @click="startHotkeyInput"
+  <button
+    class="hotkey-input"
+    :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
+    @click="startHotkeyInput"
+  >
+    <div
+      v-show="!isWaitingForKeyInput && !modelValue"
+      class="hotkey-input-placeholder"
     >
-        <div
-            class="hotkey-input-placeholder"
-            v-show="!isWaitingForKeyInput && !modelValue"
-        >
-            <PlusKeyIcon class="hotkey-input-placeholder-icon" />
-            Click to add a hotkey
-        </div>
+      <PlusKeyIcon class="hotkey-input-placeholder-icon" />
+      Click to add a hotkey
+    </div>
 
-        <kbd v-if="!isWaitingForKeyInput && modelValue" class="hotkey-value">
-            <template v-for="(key, index) in modelValue">
-                <kbd class="hotkey-key">
-                    {{ key.name }}
-                </kbd>
-
-                <span v-if="index < modelValue.length - 1"> + </span>
-            </template>
+    <kbd
+      v-if="!isWaitingForKeyInput && modelValue"
+      class="hotkey-value"
+    >
+      <template v-for="(key, index) in modelValue">
+        <kbd class="hotkey-key">
+          {{ key.name }}
         </kbd>
 
-        <span v-show="isWaitingForKeyInput"> Press hotkey... </span>
-    </button>
+        <span v-if="index < modelValue.length - 1"> + </span>
+      </template>
+    </kbd>
+
+    <span v-show="isWaitingForKeyInput"> Press hotkey... </span>
+  </button>
 </template>

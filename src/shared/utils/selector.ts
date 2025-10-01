@@ -1,6 +1,7 @@
 export function getUniqueSelector(element: HTMLElement) {
-    let path = [],
-        parent
+    const path = []
+    
+    let parent: HTMLElement | null = element.parentElement
 
     while ((parent = element.parentElement)) {
         path.unshift(
@@ -9,5 +10,6 @@ export function getUniqueSelector(element: HTMLElement) {
 
         element = parent
     }
+
     return `${path.join(' > ')}`.toLowerCase()
 }

@@ -16,11 +16,15 @@ function handleAddShortcut() {
 </script>
 
 <template>
-    <main class="popup-main-content">
-        <h1 class="heading-h1 mb-2">Bind</h1>
+  <main class="popup-main-content">
+    <h1 class="heading-h1 mb-2">
+      Bind
+    </h1>
 
-        <AppButton @click="handleAddShortcut">Add shortcut</AppButton>
-    </main>
+    <AppButton @click="handleAddShortcut">
+      Add shortcut
+    </AppButton>
+  </main>
 </template>
 
 <style scoped></style>
