@@ -3,18 +3,13 @@ import styles from './styles/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-import { extensionStorage } from '@/shared/utils/storage'
-import { useShortcutsStore } from '@/shared/stores/shortcuts'
+import { shortcutsStoreSyncPlugin } from '@/shared/stores/shortcuts'
 
 document.head.insertAdjacentHTML('beforeend', `<style>${styles}</style>`)
 
 const app = createApp(App)
 
-app.use(createPinia()).mount('#bindApp')
+const pinia = createPinia()
+pinia.use(shortcutsStoreSyncPlugin)
 
-extensionStorage.get('shortcuts').then(shortcuts => {
-    console.log('Loading shortcuts', shortcuts)
-    const shortcutsStore = useShortcutsStore()
-    shortcutsStore.shortcuts = shortcuts || []
-    shortcutsStore.isPending = false
-})
+app.use(pinia).mount('#bindApp')
