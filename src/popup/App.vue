@@ -3,7 +3,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useShortcutsStore } from '@/shared/stores/shortcuts'
 import ShortcutList from '@/shared/components/shortcut-list/ShortcutList.vue'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import { sendToContentScript } from '@/shared/utils/messages'
+import { sendToContentScript } from '@/shared/utils/extension/messages'
 import { ShortcutsService } from '@/shared/services/shortcuts'
 
 const shortcutsService = new ShortcutsService()

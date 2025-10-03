@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, useId } from 'vue'
+import { Logger } from '@/shared/utils/logging'
+
+const logger = new Logger('dropdown-menu.vue')
 
 const open = defineModel<boolean>('open', { default: false })
 
@@ -7,7 +10,7 @@ const id = useId()
 
 function handleClick(event: Event) {
     if (!(event.target instanceof Element) || !event.target.closest('#' + id)) {
-        console.log('closing', event.target)
+        logger.debug('Closing', event.target)
 
         open.value = false
     }

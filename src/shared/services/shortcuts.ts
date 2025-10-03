@@ -1,6 +1,9 @@
 import type { Key } from '@/shared/utils/hotkeys'
 import { useShortcutsStore } from '@/shared/stores/shortcuts'
 import type { ClickShortcut, Shortcut } from '@/shared/models/shortcut'
+import { Logger } from '@/shared/utils/logging'
+
+const logger = new Logger('shortcuts-service')
 
 interface ShortcutExecutor<TShortcut extends Shortcut> {
     executeShortcut(shortcut: TShortcut): void
@@ -45,7 +48,7 @@ export class ShortcutsService {
                 hotkeyMatches &&
                 this.checkIfUrlsMatch(shortcut.siteUrl, window.location.href)
             ) {
-                console.log(`Executing shortcut: ${JSON.stringify(shortcut)}`)
+                logger.info('Executing shortcut', shortcut)
 
                 event.stopPropagation()
                 event.preventDefault()

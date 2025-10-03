@@ -33,4 +33,6 @@ Bun.build({
             },
         },
     ],
+
+    env: 'BIND_*',
 })

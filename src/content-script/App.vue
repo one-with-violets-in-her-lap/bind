@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { ShortcutInput } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import { addContentScriptMessageListener } from '@/shared/utils/messages'
+import { addContentScriptMessageListener } from '@/shared/utils/extension/messages'
 import { useHoveredElement } from '@/shared/utils/hovered-element'
 import { useBoundingBox } from '@/shared/utils/bounding-box'
 import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'

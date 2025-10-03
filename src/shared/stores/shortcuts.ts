@@ -1,7 +1,10 @@
 import { defineStore, type PiniaPluginContext } from 'pinia'
 import { ref } from 'vue'
 import type { Shortcut, ShortcutInput } from '@/shared/models/shortcut'
-import { extensionStorage } from '@/shared/utils/storage'
+import { extensionStorage } from '@/shared/utils/extension/storage'
+import { Logger } from '@/shared/utils/logging'
+
+const logger = new Logger('stores/shortcuts')
 
 const SHORTCUTS_STORE_ID = 'shortcuts'
 
@@ -39,7 +42,7 @@ export function shortcutsStoreSyncPlugin(context: PiniaPluginContext) {
         extensionStorage.get('shortcuts').then(shortcuts => {
             areChangesFromStorage = true
 
-            console.log('Shortcuts loaded', shortcuts)
+            logger.info(`Shortcuts loaded`, shortcuts)
 
             store.$state.shortcuts = shortcuts || []
             store.$state.isPending = false
@@ -48,7 +51,7 @@ export function shortcutsStoreSyncPlugin(context: PiniaPluginContext) {
         const storageUpdateListener = extensionStorage.addUpdateListener(update => {
             areChangesFromStorage = true
 
-            console.log('Syncing shortcuts changes from storage:', update)
+            logger.info(`Syncing shortcuts changes from storage:`, update)
 
             store.$state.shortcuts = update.shortcuts?.newValue || []
             store.$state.isPending = false
@@ -62,7 +65,7 @@ export function shortcutsStoreSyncPlugin(context: PiniaPluginContext) {
 
             const newShortcuts = store.$state.shortcuts
 
-            console.log('Syncing shortcuts changes to storage:', newShortcuts)
+            logger.info(`Syncing shortcuts changes to storage:`, newShortcuts)
 
             extensionStorage.set({
                 shortcuts: JSON.parse(JSON.stringify(newShortcuts)),

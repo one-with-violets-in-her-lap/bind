@@ -1,16 +1,14 @@
 import styles from './styles/main.css'
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import App from './App.vue'
-import { shortcutsStoreSyncPlugin } from '@/shared/stores/shortcuts'
 import { ShortcutsService } from '@/shared/services/shortcuts'
-import { extensionStorage } from '@/shared/utils/storage'
 import { setupHotkeyListener } from '@/shared/utils/hotkeys'
+import { setupApp } from '@/shared/app'
+import { Logger } from '@/shared/utils/logging'
+
+const logger = new Logger('content-script/main')
 
 function startContentScript() {
-    console.log('[bind] yo')
-
     mountContentScriptApp()
 }
 
@@ -32,15 +30,16 @@ function mountContentScriptApp() {
 
     document.body.appendChild(shadowHost)
 
+    const app = setupApp(App)
+
+    logger.info('Content script started')
+
     const shortcutsService = new ShortcutsService()
     setupHotkeyListener((hotkey, event) =>
         shortcutsService.handleHotkey(hotkey, event),
     )
 
-    const pinia = createPinia()
-    pinia.use(shortcutsStoreSyncPlugin)
-
-    createApp(App).use(pinia).mount(appContainer)
+    app.mount(appContainer)
 }
 
 if (window.bindExtension === undefined) {
