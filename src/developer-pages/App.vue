@@ -5,14 +5,14 @@ const mockElement = document.createElement('div')
 </script>
 
 <template>
-  <h2>Shortcut form</h2>
+    <h2>Shortcut form</h2>
 
-  <ShortcutFormPopup
-    :anchor="{ x: 0, y: 0, height: 0, width: 0 }"
-    :selected-element="mockElement"
-    status="success"
-    class="shortcut-form-mock"
-  />
+    <ShortcutFormPopup
+        :anchor="{ x: 0, y: 0, height: 0, width: 0 }"
+        :selected-element="mockElement"
+        status="success"
+        class="shortcut-form-mock"
+    />
 </template>
 
 <style>

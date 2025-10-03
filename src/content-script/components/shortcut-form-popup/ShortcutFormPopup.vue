@@ -89,64 +89,46 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div
-    ref="popupElementRef"
-    class="shortcut-form-popup"
-    tabindex="0"
-    autofocus
-    :style="`left: ${safePositionX}px; ` + `top: ${safePositionY}px; `"
-  >
     <div
-      class="shortcut-form-content"
-      :class="{ 'shortcut-form-content-hidden': status !== 'form' }"
+        ref="popupElementRef"
+        class="shortcut-form-popup"
+        tabindex="0"
+        autofocus
+        :style="`left: ${safePositionX}px; ` + `top: ${safePositionY}px; `"
     >
-      <h2 class="heading-h2 mb-1 shortcut-form-heading">
-        New shortcut
-      </h2>
-
-      <div class="shortcut-title mb-4">
-        Click element
-        {{ elementText }}
-      </div>
-
-      <HotkeyInput
-        v-model="hotkey"
-        class="mb-6"
-      />
-
-      <div class="actions">
-        <AppButton
-          :disabled="hotkey === null"
-          @click="handleSubmit"
+        <div
+            class="shortcut-form-content"
+            :class="{ 'shortcut-form-content-hidden': status !== 'form' }"
         >
-          Create
-        </AppButton>
+            <h2 class="heading-h2 mb-1 shortcut-form-heading">New shortcut</h2>
 
-        <AppButton
-          variant="secondary"
-          @click="emit('cancel')"
+            <div class="shortcut-title mb-4">
+                Click element
+                {{ elementText }}
+            </div>
+
+            <HotkeyInput v-model="hotkey" class="mb-6" />
+
+            <div class="actions">
+                <AppButton :disabled="hotkey === null" @click="handleSubmit">
+                    Create
+                </AppButton>
+
+                <AppButton variant="secondary" @click="emit('cancel')">
+                    Cancel
+                </AppButton>
+            </div>
+        </div>
+
+        <div
+            class="shortcut-form-success"
+            :class="{ 'shortcut-form-success-visible': status === 'success' }"
         >
-          Cancel
-        </AppButton>
-      </div>
+            <CheckMarkIcon />
+
+            <h2 class="heading-h2 mb-6 shortcut-form-heading">Shortcut created</h2>
+
+            <AppButton variant="default" @click="emit('cancel')"> OK </AppButton>
+        </div>
     </div>
-
-    <div
-      class="shortcut-form-success"
-      :class="{ 'shortcut-form-success-visible': status === 'success' }"
-    >
-      <CheckMarkIcon />
-
-      <h2 class="heading-h2 mb-6 shortcut-form-heading">
-        Shortcut created
-      </h2>
-
-      <AppButton
-        variant="default"
-        @click="emit('cancel')"
-      >
-        OK
-      </AppButton>
-    </div>
-  </div>
 </template>

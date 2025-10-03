@@ -13,6 +13,7 @@
         "@types/web": "^0.0.270",
         "bun-style-loader": "^0.4.0",
         "eslint": "^9.36.0",
+        "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-vue": "^10.5.0",
         "globals": "^16.4.0",
         "jiti": "^2.6.0",

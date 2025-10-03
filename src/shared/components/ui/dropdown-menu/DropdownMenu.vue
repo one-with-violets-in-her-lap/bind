@@ -21,22 +21,13 @@ onUnmounted(() => document.removeEventListener('click', handleClick))
 </script>
 
 <template>
-  <div
-    :id
-    class="dropdown-container"
-  >
-    <slot
-      name="trigger"
-      :trigger-props="{ onClick: () => (open = !open) }"
-    />
+    <div :id class="dropdown-container">
+        <slot name="trigger" :trigger-props="{ onClick: () => (open = !open) }" />
 
-    <Transition name="dropdown-slide">
-      <div
-        v-show="open"
-        class="dropdown-menu"
-      >
-        <slot :close="() => (open = false)" />
-      </div>
-    </Transition>
-  </div>
+        <Transition name="dropdown-slide">
+            <div v-show="open" class="dropdown-menu">
+                <slot :close="() => (open = false)" />
+            </div>
+        </Transition>
+    </div>
 </template>
