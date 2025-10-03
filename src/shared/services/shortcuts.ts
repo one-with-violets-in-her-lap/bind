@@ -60,9 +60,6 @@ export class ShortcutsService {
         const parsedUrl1 = new URL(url1)
         const parsedUrl2 = new URL(url2)
 
-        return (
-            parsedUrl1.origin === parsedUrl2.origin &&
-            parsedUrl1.pathname === parsedUrl2.pathname
-        )
+        return parsedUrl1.origin === parsedUrl2.origin
     }
 }

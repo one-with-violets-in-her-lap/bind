@@ -22,7 +22,7 @@ const emit = defineEmits<{
             <div class="shortcut-list-divider" />
         </div>
 
-        <ul class="shortcut-list">
+        <TransitionGroup class="shortcut-list" tag="ul" name="shortcut-list-slide">
             <li
                 v-for="shortcut in shortcuts"
                 :key="shortcut.id"
@@ -75,6 +75,6 @@ const emit = defineEmits<{
                     </kbd>
                 </span>
             </li>
-        </ul>
+        </TransitionGroup>
     </div>
 </template>

@@ -59,3 +59,21 @@
     align-items: center;
     flex-wrap: wrap;
 }
+
+.shortcut-list-slide-move,
+.shortcut-list-slide-enter-active,
+.shortcut-list-slide-leave-active {
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.shortcut-list-slide-leave-active {
+    position: absolute;
+}
+
+.shortcut-list-slide-enter-from,
+.shortcut-list-slide-leave-to {
+    opacity: 0;
+    transform: translateX(20px) scale(0.5);
+}
