@@ -11,7 +11,10 @@ withDefaults(
 )
 </script>
 <template>
-    <button class="app-button" :class="`app-button-variant-${variant} app-button-size-${size}`">
-        <slot />
-    </button>
+  <button
+    class="app-button"
+    :class="`app-button-variant-${variant} app-button-size-${size}`"
+  >
+    <slot />
+  </button>
 </template>

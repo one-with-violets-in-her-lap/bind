@@ -2,7 +2,6 @@ import type { Shortcut } from '@/shared/models/shortcut'
 
 interface BaseExtensionMessage {
     messageType: string
-    data?: any
 }
 
 interface ShortcutCreationStartMessage extends BaseExtensionMessage {

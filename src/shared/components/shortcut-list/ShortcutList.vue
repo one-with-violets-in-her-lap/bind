@@ -16,65 +16,71 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <div class="shortcut-list-wrapper">
-        <div class="shortcut-list-divider-lines">
-            <div class="shortcut-list-divider" />
-            <div class="shortcut-list-divider" />
+  <div class="shortcut-list-wrapper">
+    <div class="shortcut-list-divider-lines">
+      <div class="shortcut-list-divider" />
+      <div class="shortcut-list-divider" />
+    </div>
+
+    <TransitionGroup
+      class="shortcut-list"
+      tag="ul"
+      name="shortcut-list-slide"
+    >
+      <li
+        v-for="shortcut in shortcuts"
+        :key="shortcut.id"
+        class="shortcut-list-item"
+      >
+        <div class="shortcut-item-info">
+          <div class="shortcut-item-title-container">
+            <div class="shortcut-item-title">
+              {{ shortcut.title }}
+            </div>
+
+            <DropdownMenu>
+              <template #trigger="{ triggerProps }">
+                <AppButton
+                  size="icon"
+                  variant="ghost"
+                  v-bind="triggerProps"
+                >
+                  <ThreeDotsIcon />
+                </AppButton>
+              </template>
+
+              <template #default="{ close }">
+                <DropdownItem
+                  @click="
+                    () => {
+                      close()
+                      emit('delete', shortcut)
+                    }
+                  "
+                >
+                  <TrashIcon />
+                  Delete
+                </DropdownItem>
+              </template>
+            </DropdownMenu>
+          </div>
+
+          <a
+            class="shortcut-site"
+            :href="shortcut.siteUrl"
+            target="_blank"
+          >{{ shortcut.siteUrl }}</a>
         </div>
 
-        <TransitionGroup class="shortcut-list" tag="ul" name="shortcut-list-slide">
-            <li
-                v-for="shortcut in shortcuts"
-                :key="shortcut.id"
-                class="shortcut-list-item"
-            >
-                <div class="shortcut-item-info">
-                    <div class="shortcut-item-title-container">
-                        <div class="shortcut-item-title">
-                            {{ shortcut.title }}
-                        </div>
-
-                        <DropdownMenu>
-                            <template #trigger="{ triggerProps }">
-                                <AppButton
-                                    size="icon"
-                                    variant="ghost"
-                                    v-bind="triggerProps"
-                                >
-                                    <ThreeDotsIcon />
-                                </AppButton>
-                            </template>
-
-                            <template #default="{ close }">
-                                <DropdownItem
-                                    @click="
-                                        () => {
-                                            close()
-                                            emit('delete', shortcut)
-                                        }
-                                    "
-                                >
-                                    <TrashIcon />
-                                    Delete
-                                </DropdownItem>
-                            </template>
-                        </DropdownMenu>
-                    </div>
-
-                    <a
-                        class="shortcut-site"
-                        :href="shortcut.siteUrl"
-                        target="_blank"
-                        >{{ shortcut.siteUrl }}</a
-                    >
-                </div>
-
-                <span class="shortcut-hotkey">
-                    <kbd v-for="key in shortcut.hotkey" class="hotkey-key">
-                        {{ key.name }}
-                    </kbd>
-                </span>
-            </li>
-        </TransitionGroup>
-    </div>
+        <span class="shortcut-hotkey">
+          <kbd
+            v-for="key in shortcut.hotkey"
+            class="hotkey-key"
+          >
+            {{ key.name }}
+          </kbd>
+        </span>
+      </li>
+    </TransitionGroup>
+  </div>
 </template>

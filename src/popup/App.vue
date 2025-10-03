@@ -54,33 +54,42 @@ function handleAddShortcut() {
 </script>
 
 <template>
-    <div class="popup">
-        <main class="popup-main-content">
-            <h1 class="heading-h1 popup-heading mb-4">Bind</h1>
+  <div class="popup">
+    <main class="popup-main-content">
+      <h1 class="heading-h1 popup-heading mb-4">
+        Bind
+      </h1>
 
-            <AppButton class="mb-8" @click="handleAddShortcut">
-                Add shortcut
-            </AppButton>
+      <AppButton
+        class="mb-8"
+        @click="handleAddShortcut"
+      >
+        Add shortcut
+      </AppButton>
 
-            <section class="shortcuts-section mb-8">
-                <h2 class="heading-h2 mb-1">On this site</h2>
+      <section class="shortcuts-section mb-8">
+        <h2 class="heading-h2 mb-1">
+          On this site
+        </h2>
 
-                <ShortcutList
-                    :shortcuts="groupedShortcuts?.['current-site'] || []"
-                    @delete="shortcut => removeShortcut(shortcut.id)"
-                />
-            </section>
+        <ShortcutList
+          :shortcuts="groupedShortcuts?.['current-site'] || []"
+          @delete="shortcut => removeShortcut(shortcut.id)"
+        />
+      </section>
 
-            <section class="shortcuts-section">
-                <h2 class="heading-h2 mb-1">Other shortcuts</h2>
+      <section class="shortcuts-section">
+        <h2 class="heading-h2 mb-1">
+          Other shortcuts
+        </h2>
 
-                <ShortcutList
-                    :shortcuts="groupedShortcuts?.['other'] || []"
-                    @delete="shortcut => removeShortcut(shortcut.id)"
-                />
-            </section>
-        </main>
-    </div>
+        <ShortcutList
+          :shortcuts="groupedShortcuts?.['other'] || []"
+          @delete="shortcut => removeShortcut(shortcut.id)"
+        />
+      </section>
+    </main>
+  </div>
 </template>
 
 <style scoped></style>
