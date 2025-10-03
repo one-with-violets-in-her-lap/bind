@@ -46,9 +46,9 @@
 }
 
 .hotkey-key {
-    padding: 1px 7px;
+    padding: 0px 7px;
     border-radius: 4px;
-    background-color: color-mix(in srgb, var(--color-foreground) 20%, transparent);
+    background-color: color-mix(in srgb, var(--color-foreground) 10%, transparent);
     border: 0.4px solid var(--color-foreground-muted);
     font-size: 12.8px;
 }

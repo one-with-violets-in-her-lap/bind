@@ -1,33 +1,10 @@
 .app-button {
     cursor: pointer;
-    padding: 9px 22px;
     border-radius: 10px;
     font-size: 12.8px;
     font-family: 'Courier New', Courier, monospace;
 
     transition: all 0.3s ease;
-}
-
-.app-button.app-button-default {
-    color: var(--color-background);
-    background-color: var(--color-foreground);
-    border: 0.8px solid var(--color-foreground-muted);
-}
-
-.app-button.app-button-default:hover:not(:disabled) {
-    opacity: 0.9;
-    box-shadow: 0px 0px 16px 0px
-        color-mix(in srgb, var(--color-foreground) 20%, transparent);
-}
-
-.app-button.app-button-secondary {
-    color: var(--color-foreground);
-    background-color: var(--color-background);
-    border: 0.8px solid var(--color-foreground-muted);
-}
-
-.app-button.app-button-secondary:hover:not(:disabled) {
-    background-color: var(--color-background-glass);
 }
 
 .app-button:disabled {
@@ -38,4 +15,49 @@
     opacity: 0.5;
     box-shadow: none;
     cursor: not-allowed;
+}
+
+/* Variants */
+.app-button.app-button-variant-default {
+    color: var(--color-background);
+    background-color: var(--color-foreground);
+    border: 0.8px solid var(--color-foreground-muted);
+}
+
+.app-button.app-button-variant-default:hover:not(:disabled) {
+    opacity: 0.9;
+    box-shadow: 0px 0px 16px 0px
+        color-mix(in srgb, var(--color-foreground) 20%, transparent);
+}
+
+.app-button.app-button-variant-secondary {
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border: 0.8px solid var(--color-foreground-muted);
+}
+
+.app-button.app-button-variant-secondary:hover:not(:disabled) {
+    background-color: var(--color-background-glass);
+}
+
+.app-button.app-button-variant-ghost {
+    color: var(--color-foregroun);
+    background-color: transparent;
+}
+
+.app-button.app-button-variant-ghost:hover {
+    background-color: color-mix(in srgb, var(--color-foreground) 8%, transparent);
+}
+
+/* Size */
+.app-button-size-default {
+    padding: 9px 22px;
+}
+
+.app-button-size-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

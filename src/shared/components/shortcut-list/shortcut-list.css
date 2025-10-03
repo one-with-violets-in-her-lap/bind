@@ -1,21 +1,23 @@
 .shortcut-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 32px;
 }
 
 .shortcut-list-item {
     display: grid;
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: 6fr 5fr;
     column-gap: 8px;
     justify-content: space-between;
+    align-items: center;
 }
 
 .shortcut-item-title-container {
     display: grid;
     column-gap: 5px;
     align-items: center;
-    grid-template-columns: 20px 1fr;
+    grid-template-columns: 1fr 20px;
+    padding-right: 10px;
 }
 
 .shortcut-item-title {
@@ -26,11 +28,12 @@
     line-clamp: 2;
     line-height: 16px;
     overflow: hidden;
+    margin-bottom: 4px;
 }
 
 .shortcut-list-divider-lines {
     display: grid;
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: 6fr 5fr;
     column-gap: 6px;
     margin-bottom: 16px;
 }
@@ -43,4 +46,16 @@
 .shortcut-site {
     font-size: 11px;
     color: color-mix(in srgb, var(--color-foreground) 40%, transparent);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+}
+
+.shortcut-hotkey {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
 }

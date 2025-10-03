@@ -16,7 +16,12 @@ const isWaitingForKeyInput = ref(false)
 let hotkeyListener: { remove: () => void } | undefined = undefined
 onUnmounted(() => hotkeyListener?.remove())
 
-function startHotkeyInput() {
+function handleClick() {
+    if (isWaitingForKeyInput.value) {
+        isWaitingForKeyInput.value = false
+        return
+    }
+
     isWaitingForKeyInput.value = true
 
     hotkeyListener = setupHotkeyListener(
@@ -42,32 +47,25 @@ function stopHotkeyInput() {
 </script>
 
 <template>
-  <button
-    class="hotkey-input"
-    :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
-    @click="startHotkeyInput"
-  >
-    <div
-      v-show="!isWaitingForKeyInput && !modelValue"
-      class="hotkey-input-placeholder"
+    <button
+        class="hotkey-input"
+        :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
+        @click="handleClick"
     >
-      <PlusKeyIcon class="hotkey-input-placeholder-icon" />
-      Click to add a hotkey
-    </div>
+        <div
+            v-show="!isWaitingForKeyInput && !modelValue"
+            class="hotkey-input-placeholder"
+        >
+            <PlusKeyIcon class="hotkey-input-placeholder-icon" />
+            Click to add a hotkey
+        </div>
 
-    <kbd
-      v-if="!isWaitingForKeyInput && modelValue"
-      class="hotkey-value"
-    >
-      <template v-for="(key, index) in modelValue">
-        <kbd class="hotkey-key">
-          {{ key.name }}
+        <kbd v-if="!isWaitingForKeyInput && modelValue" class="hotkey-value">
+            <kbd v-for="key in modelValue" class="hotkey-key">
+                {{ key.name }}
+            </kbd>
         </kbd>
 
-        <span v-if="index < modelValue.length - 1"> + </span>
-      </template>
-    </kbd>
-
-    <span v-show="isWaitingForKeyInput"> Press hotkey... </span>
-  </button>
+        <span v-show="isWaitingForKeyInput"> Press hotkey... </span>
+    </button>
 </template>

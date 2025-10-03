@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import { extensionStorage } from '@/shared/utils/storage'
-import { useShortcutsStore } from '@/content-script/stores/shortcuts'
+import { useShortcutsStore } from '@/shared/stores/shortcuts'
 
 document.head.insertAdjacentHTML('beforeend', `<style>${styles}</style>`)
 

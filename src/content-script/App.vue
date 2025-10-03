@@ -6,7 +6,7 @@ import { addContentScriptMessageListener } from '@/shared/utils/messages'
 import { useHoveredElement } from '@/shared/utils/hovered-element'
 import { useBoundingBox } from '@/shared/utils/bounding-box'
 import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'
-import { useShortcutsStore } from '@/content-script/stores/shortcuts'
+import { useShortcutsStore } from '@/shared/stores/shortcuts'
 
 const { addShortcut } = useShortcutsStore()
 

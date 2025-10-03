@@ -1,5 +1,5 @@
 import type { Key } from '@/shared/utils/hotkeys'
-import { useShortcutsStore } from '@/content-script/stores/shortcuts'
+import { useShortcutsStore } from '@/shared/stores/shortcuts'
 import type { ClickShortcut, Shortcut } from '@/shared/models/shortcut'
 
 interface ShortcutExecutor<TShortcut extends Shortcut> {

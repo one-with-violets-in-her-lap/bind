@@ -1,6 +1,5 @@
 @import url('@/shared/styles/main.css');
 @import url('@/content-script/components/shortcut-form-popup/shortcut-form-popup.css');
-@import url('@/content-script/components/hotkey-input/hotkey-input.css');
 
 .status-popup {
     background-color: var(--color-background-glass);
