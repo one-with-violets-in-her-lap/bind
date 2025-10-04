@@ -39,6 +39,16 @@ export class ShortcutsService {
     handleHotkey(hotkey: Key[], event: KeyboardEvent) {
         const shortcutsStore = useShortcutsStore()
 
+        if (
+            event.target instanceof Element &&
+            (event.target.tagName === 'input' ||
+                event.target.tagName === 'textarea' ||
+                event.target.closest('input, textarea'))
+        ) {
+            logger.debug('Ignoring key press from an input', event.target)
+            return
+        }
+
         shortcutsStore.shortcuts.forEach(shortcut => {
             const hotkeyMatches = shortcut.hotkey.every(key =>
                 hotkey.some(hotkeyKey => hotkeyKey.code === key.code),
