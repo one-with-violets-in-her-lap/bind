@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Bind",
     "version": "0.0.1",
 
@@ -11,7 +11,7 @@
         "48": "icons/48px.png"
     },
 
-    "browser_action": {
+    "action": {
         "default_icon": "icons/48px.png",
         "default_title": "Bind",
         "default_popup": "popup/index.html"
