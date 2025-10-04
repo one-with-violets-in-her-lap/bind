@@ -26,7 +26,7 @@
     "scripts": {
         "build": "BIND_MODE=production bun build.ts",
         "dev": "nodemon --watch ./src/ --ext css,ts,js,vue,json -x \"bun build.ts\"",
-        "dev-pages": "bun ./src/dev-pages-server.ts",
+        "dev-pages": "bun ./dev-pages-server.ts",
         "type-check": "vue-tsc --noEmit",
         "format": "prettier . -w",
         "lint": "eslint --fix"

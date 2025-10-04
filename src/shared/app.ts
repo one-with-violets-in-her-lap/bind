@@ -16,7 +16,9 @@ export function setupApp(AppComponent: Component) {
 
     configureLoggers({
         level:
-            process.env.BIND_MODE === 'development' ? LogLevel.INFO : LogLevel.WARN,
+            process.env.BIND_MODE === 'development'
+                ? LogLevel.INFO
+                : LogLevel.WARN,
     })
 
     app.use(pinia)

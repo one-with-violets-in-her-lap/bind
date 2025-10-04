@@ -34,5 +34,9 @@ Bun.build({
         },
     ],
 
-    env: 'BIND_*',
+    define: {
+        'process.env.BIND_MODE': JSON.stringify(
+            process.env.BIND_MODE || 'production',
+        ),
+    },
 })
