@@ -15,11 +15,16 @@ html,
 }
 
 /* Typography */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/geist-mono-variable.ttf');
+}
+
 body,
 #bindApp {
     color: var(--color-foreground);
     font-weight: 300;
-    font-family: 'Fira Mono', monospace;
+    font-family: 'Geist Mono', 'Courier New', Courier, monospace;
 }
 
 .heading-h1 {
