@@ -60,8 +60,8 @@ function stopHotkeyInput() {
 
 <template>
     <button
-        class="hotkey-input"
         ref="inputButtonRef"
+        class="hotkey-input"
         :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
         @click="handleClick"
     >

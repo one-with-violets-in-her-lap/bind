@@ -55,31 +55,50 @@ function handleAddShortcut() {
 
 <template>
     <div class="popup">
-        <main class="popup-main-content">
-            <h1 class="heading-h1 popup-heading mb-4">Bind</h1>
+        <div class="popup-frame">
+            <div class="popup-glare-line popup-glare-line-1"></div>
+            <div class="popup-glare-line popup-glare-line-2"></div>
+            <div class="popup-glare-line popup-glare-line-3"></div>
+            <div class="popup-glare-line popup-glare-line-4"></div>
 
-            <AppButton class="mb-8" @click="handleAddShortcut">
-                Add shortcut
-            </AppButton>
+            <main class="popup-main-content">
+                <h1 class="heading-h1 popup-heading mb-4">Bind</h1>
 
-            <section class="shortcuts-section mb-8">
-                <h2 class="heading-h2 mb-1">On this site</h2>
+                <AppButton class="mb-8" @click="handleAddShortcut">
+                    Add shortcut
+                </AppButton>
 
-                <ShortcutList
-                    :shortcuts="groupedShortcuts?.['current-site'] || []"
-                    @delete="shortcut => removeShortcut(shortcut.id)"
-                />
-            </section>
+                <section class="shortcuts-section mb-8">
+                    <h2 class="heading-h2 mb-1">On this site</h2>
 
-            <section class="shortcuts-section">
-                <h2 class="heading-h2 mb-1">Other shortcuts</h2>
+                    <ShortcutList
+                        :shortcuts="groupedShortcuts?.['current-site'] || []"
+                        @delete="shortcut => removeShortcut(shortcut.id)"
+                    />
+                </section>
 
-                <ShortcutList
-                    :shortcuts="groupedShortcuts?.['other'] || []"
-                    @delete="shortcut => removeShortcut(shortcut.id)"
-                />
-            </section>
-        </main>
+                <section class="shortcuts-section">
+                    <h2 class="heading-h2 mb-1">Other shortcuts</h2>
+
+                    <ShortcutList
+                        :shortcuts="groupedShortcuts?.['other'] || []"
+                        @delete="shortcut => removeShortcut(shortcut.id)"
+                    />
+                </section>
+            </main>
+
+            <img
+                src="/images/clouds.png"
+                alt="Clouds decoration"
+                class="cloud cloud-left"
+            />
+
+            <img
+                src="/images/clouds.png"
+                alt="Clouds decoration"
+                class="cloud cloud-right"
+            />
+        </div>
     </div>
 </template>
 
