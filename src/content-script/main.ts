@@ -2,7 +2,7 @@ import styles from './styles/main.css'
 
 import App from './App.vue'
 import { ShortcutsService } from '@/shared/services/shortcuts'
-import { setupHotkeyListener } from '@/shared/utils/hotkeys'
+import { setupAllHotkeysListener } from '@/shared/utils/hotkeys'
 import { setupApp } from '@/shared/app'
 import { Logger } from '@/shared/utils/logging'
 
@@ -35,7 +35,7 @@ function mountContentScriptApp() {
     logger.info('Content script started')
 
     const shortcutsService = new ShortcutsService()
-    setupHotkeyListener((hotkey, event) =>
+    setupAllHotkeysListener((hotkey, event) =>
         shortcutsService.handleHotkey(hotkey, event),
     )
 

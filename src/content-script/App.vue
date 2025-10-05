@@ -7,6 +7,7 @@ import { useHoveredElement } from '@/shared/utils/hovered-element'
 import { useBoundingBox } from '@/shared/utils/bounding-box'
 import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'
 import { useShortcutsStore } from '@/shared/stores/shortcuts'
+import { KeyCode, useHotkeyListener } from '@/shared/utils/hotkeys'
 
 const { addShortcut } = useShortcutsStore()
 
@@ -66,6 +67,13 @@ onMounted(() => {
 
 onUnmounted(() => {
     abortController.abort()
+})
+
+// Escape - shortcut selection stop shortcut
+useHotkeyListener([{ code: KeyCode.Escape, name: 'Escape' }], () => {
+    if (state.value.status === 'selection') {
+        handleCancel()
+    }
 })
 
 function handleShortcutCreationStart() {

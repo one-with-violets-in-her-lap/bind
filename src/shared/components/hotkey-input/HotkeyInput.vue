@@ -1,10 +1,15 @@
 <script lang="ts" setup>
-import { onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import PlusKeyIcon from '@/shared/components/ui/icons/PlusKeyIcon.vue'
-import { type Key, KeyCode, setupHotkeyListener } from '@/shared/utils/hotkeys'
+import { type Key, KeyCode, setupAllHotkeysListener } from '@/shared/utils/hotkeys'
 
-defineProps<{
+const props = defineProps<{
     modelValue: Key[] | null
+
+    /**
+     * Immediately starts hotkey selection once the component is mounted
+     */
+    triggerAutomatically?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -16,6 +21,13 @@ const isWaitingForKeyInput = ref(false)
 let hotkeyListener: { remove: () => void } | undefined = undefined
 onUnmounted(() => hotkeyListener?.remove())
 
+const inputButtonRef = ref<HTMLButtonElement>()
+onMounted(() => {
+    if (props.triggerAutomatically) {
+        inputButtonRef.value?.click()
+    }
+})
+
 function handleClick() {
     if (isWaitingForKeyInput.value) {
         isWaitingForKeyInput.value = false
@@ -24,7 +36,7 @@ function handleClick() {
 
     isWaitingForKeyInput.value = true
 
-    hotkeyListener = setupHotkeyListener(
+    hotkeyListener = setupAllHotkeysListener(
         (hotkey, event) => {
             if (event.keyCode === KeyCode.Escape) {
                 stopHotkeyInput()
@@ -49,6 +61,7 @@ function stopHotkeyInput() {
 <template>
     <button
         class="hotkey-input"
+        ref="inputButtonRef"
         :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
         @click="handleClick"
     >

@@ -89,12 +89,12 @@ function handleSubmit() {
 </script>
 
 <template>
-    <div
+    <dialog
         ref="popupElementRef"
-        class="shortcut-form-popup"
-        tabindex="0"
-        autofocus
         :style="`left: ${safePositionX}px; ` + `top: ${safePositionY}px; `"
+        open
+        aria-label="New shortcut form"
+        class="shortcut-form-popup"
     >
         <div
             class="shortcut-form-content"
@@ -107,7 +107,7 @@ function handleSubmit() {
                 {{ elementText }}
             </div>
 
-            <HotkeyInput v-model="hotkey" class="mb-6" />
+            <HotkeyInput v-model="hotkey" class="mb-6" trigger-automatically />
 
             <div class="actions">
                 <AppButton :disabled="hotkey === null" @click="handleSubmit">
@@ -130,5 +130,5 @@ function handleSubmit() {
 
             <AppButton variant="default" @click="emit('cancel')"> OK </AppButton>
         </div>
-    </div>
+    </dialog>
 </template>

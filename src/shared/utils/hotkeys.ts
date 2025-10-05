@@ -1,3 +1,5 @@
+import { onMounted, onUnmounted } from 'vue'
+
 export interface Key {
     name: string
     code: KeyCode
@@ -5,9 +7,9 @@ export interface Key {
 
 const HOTKEY_INPUT_TIMEOUT_MILLISECONDS = 300
 
-export function setupHotkeyListener(
+export function setupAllHotkeysListener(
     hotkeyHandler: (hotkey: Key[], event: KeyboardEvent) => void,
-    options: { onHotkeyEnd?: (hotkey: Key[]) => void } = {},
+    options: { onHotkeyEnd?: (hotkey: Key[]) => void; signal?: AbortSignal } = {},
 ) {
     let pressedKeys: Key[] = []
     let keysResetTimeoutId: number | undefined = undefined
@@ -65,11 +67,37 @@ export function setupHotkeyListener(
 
     document.addEventListener('keydown', handleKeydown, { capture: true })
 
+    options.signal?.addEventListener('abort', () =>
+        document.removeEventListener('keydown', handleKeydown, { capture: true }),
+    )
+
     return {
         remove() {
             document.removeEventListener('keydown', handleKeydown, { capture: true })
         },
     }
+}
+
+export function useHotkeyListener(
+    hotkey: Key[],
+    handler: (event: KeyboardEvent) => void,
+) {
+    let hotkeysListener: ReturnType<typeof setupAllHotkeysListener> | undefined =
+        undefined
+
+    onMounted(() => {
+        hotkeysListener = setupAllHotkeysListener((pressedHotkey, event) => {
+            if (
+                hotkey.every(key =>
+                    pressedHotkey.some(pressedKey => pressedKey.code === key.code),
+                )
+            ) {
+                handler(event)
+            }
+        })
+    })
+
+    onUnmounted(() => hotkeysListener?.remove())
 }
 
 export enum KeyCode {
