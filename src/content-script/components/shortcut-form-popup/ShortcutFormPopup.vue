@@ -23,18 +23,20 @@ const emit = defineEmits<{
 
 const hotkey = ref<Key[] | null>(null)
 
-const elementText = computed(
-    () =>
+const elementText = computed(() => {
+    return (
         '"' +
         (
-            props.selectedElement.ariaLabel ||
-            props.selectedElement.title ||
-            props.selectedElement.textContent ||
-            props.selectedElement.id ||
-            props.selectedElement.className
+            props.selectedElement.ariaLabel?.trim() ||
+            props.selectedElement.title?.trim() ||
+            props.selectedElement.textContent?.trim() ||
+            props.selectedElement.id?.trim() ||
+            props.selectedElement.className?.trim() ||
+            props.selectedElement.tagName.toLowerCase()
         ).trim() +
-        '"',
-)
+        '"'
+    )
+})
 
 const windowSize = useWindowSize()
 
