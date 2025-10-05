@@ -65,11 +65,12 @@ function stopHotkeyInput() {
         :class="{ 'hotkey-input-active': isWaitingForKeyInput }"
         @click="handleClick"
     >
+        <PlusKeyIcon class="hotkey-input-placeholder-icon" />
+
         <div
             v-show="!isWaitingForKeyInput && !modelValue"
             class="hotkey-input-placeholder"
         >
-            <PlusKeyIcon class="hotkey-input-placeholder-icon" />
             Click to add a hotkey
         </div>
 
