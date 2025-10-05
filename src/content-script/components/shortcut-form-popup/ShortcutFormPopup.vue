@@ -45,12 +45,24 @@ const safePositionX = computed(() => {
         return props.anchor.x
     }
 
-    if (
+    const doesNotFitOnRightSide =
         props.anchor.x + props.anchor.width + popupElementRef.value.clientWidth >
         (windowSize.width.value || 0)
-    ) {
-        return props.anchor.x - popupElementRef.value.clientWidth - ANCHOR_SPACING
+
+    if (doesNotFitOnRightSide) {
+        if (props.anchor.x - popupElementRef.value.clientWidth >= 0) {
+            // Position on left side
+            return props.anchor.x - popupElementRef.value.clientWidth - ANCHOR_SPACING
+        } else {
+            // If popup does not fit on both sides, center it
+            return (
+                props.anchor.x +
+                props.anchor.width / 2 -
+                popupElementRef.value.clientWidth / 2
+            )
+        }
     } else {
+        // Position on right side
         return props.anchor.x + props.anchor.width + ANCHOR_SPACING
     }
 })
@@ -60,11 +72,19 @@ const safePositionY = computed(() => {
         return props.anchor.y
     }
 
-    if (
+    const doesNotFitOnTop =
         props.anchor.y + props.anchor.height + popupElementRef.value.clientHeight >
         (windowSize.height.value || 0)
-    ) {
-        return props.anchor.y - props.anchor.height - ANCHOR_SPACING
+
+    if (doesNotFitOnTop) {
+        return (
+            props.anchor.y -
+            popupElementRef.value.clientHeight +
+            // If anchor height is larger than popup, center the popup
+            (props.anchor.height > popupElementRef.value.clientHeight
+                ? props.anchor.height / 2 + popupElementRef.value.clientHeight / 2
+                : props.anchor.height)
+        )
     } else {
         return props.anchor.y
     }
