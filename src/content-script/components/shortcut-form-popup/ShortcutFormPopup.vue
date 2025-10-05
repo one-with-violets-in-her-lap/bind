@@ -27,8 +27,9 @@ const elementText = computed(
     () =>
         '"' +
         (
-            props.selectedElement.textContent ||
+            props.selectedElement.ariaLabel ||
             props.selectedElement.title ||
+            props.selectedElement.textContent ||
             props.selectedElement.id ||
             props.selectedElement.className
         ).trim() +
