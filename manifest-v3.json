@@ -1,0 +1,45 @@
+{
+    "manifest_version": 3,
+    "name": "Bind",
+    "version": "0.0.1",
+
+    "permissions": ["activeTab", "storage"],
+
+    "description": "Shortcuts for anything in browser. Bind a hotkey to a button click",
+
+    "icons": {
+        "48": "icons/48px.png"
+    },
+
+    "action": {
+        "default_icon": "icons/48px.png",
+        "default_title": "Bind",
+        "default_popup": "popup/index.html"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content-script/main.js"]
+        }
+    ],
+
+    "background": {
+        "service_worker": "background/main.js"
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "bind@bind.com"
+        }
+    },
+
+    "commands": {
+        "create-shortcut": {
+            "suggested_key": {
+                "default": "Alt+H"
+            },
+            "description": "Create a new shortcut for the current website with Bind"
+        }
+    }
+}

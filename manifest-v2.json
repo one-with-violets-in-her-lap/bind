@@ -1,5 +1,5 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "Bind",
     "version": "0.0.1",
 
@@ -11,7 +11,7 @@
         "48": "icons/48px.png"
     },
 
-    "action": {
+    "browser_action": {
         "default_icon": "icons/48px.png",
         "default_title": "Bind",
         "default_popup": "popup/index.html"
@@ -37,7 +37,7 @@
     "commands": {
         "create-shortcut": {
             "suggested_key": {
-                "default": "Ctrl+Alt+B"
+                "default": "Alt+H"
             },
             "description": "Create a new shortcut for the current website with Bind"
         }
