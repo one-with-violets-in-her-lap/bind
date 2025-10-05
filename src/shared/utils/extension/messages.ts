@@ -1,4 +1,7 @@
 import type { Shortcut } from '@/shared/models/shortcut'
+import { Logger } from '@/shared/utils/logging'
+
+const logger = new Logger('utils/extension/messages.ts')
 
 interface BaseExtensionMessage {
     messageType: string
@@ -14,9 +17,21 @@ export function sendToContentScript(tabId: number, message: MessageToContentScri
     return chrome.tabs.sendMessage(tabId, message)
 }
 
-export function addContentScriptMessageListener<
-    TMessage extends MessageToContentScript,
->(
+/**
+ * Sends a message from background/popup to a content script in the current tab
+ * */
+export function sendToCurrentTab(message: MessageToContentScript) {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        if (tabs[0]?.id === undefined) {
+            logger.warn('No current tab was detected:', tabs)
+            return
+        }
+
+        sendToContentScript(tabs[0].id, message)
+    })
+}
+
+export function onMessageToContentScript<TMessage extends MessageToContentScript>(
     messageType: TMessage['messageType'],
     handler: (message: TMessage) => void,
     options: { signal?: AbortSignal } = {},
@@ -47,13 +62,11 @@ interface NewShortcutMessage extends BaseExtensionMessage {
 
 export type MessageToBackgroundScript = NewShortcutMessage
 
-export function sendToBackgroundScript(message: MessageToBackgroundScript) {
+export function sendToBackground(message: MessageToBackgroundScript) {
     return chrome.runtime.sendMessage(message)
 }
 
-export function addMessageToBackgroundScriptListener<
-    TMessage extends MessageToBackgroundScript,
->(
+export function onMessageToBackground<TMessage extends MessageToBackgroundScript>(
     messageType: TMessage['messageType'],
     handler: (message: TMessage) => void,
     options: { signal?: AbortSignal } = {},

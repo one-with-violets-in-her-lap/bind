@@ -24,9 +24,22 @@
         }
     ],
 
+    "background": {
+        "scripts": ["background/main.js"]
+    },
+
     "browser_specific_settings": {
         "gecko": {
             "id": "bind@bind.com"
+        }
+    },
+
+    "commands": {
+        "create-shortcut": {
+            "suggested_key": {
+                "default": "Ctrl+Alt+B"
+            },
+            "description": "Create a new shortcut for the current website with Bind"
         }
     }
 }

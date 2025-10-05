@@ -5,8 +5,6 @@ import { configureLoggers, LogLevel } from '@/shared/utils/logging'
 
 /**
  * Creates a base Vue app for usage in different extension modules (popup, content scripts)
- *
- * Also configures logging
  * */
 export function setupApp(AppComponent: Component) {
     const app = createApp(AppComponent)
@@ -14,14 +12,14 @@ export function setupApp(AppComponent: Component) {
     const pinia = createPinia()
     pinia.use(shortcutsStoreSyncPlugin)
 
-    configureLoggers({
-        level:
-            process.env.BIND_MODE === 'development'
-                ? LogLevel.INFO
-                : LogLevel.WARN,
-    })
-
     app.use(pinia)
 
     return app
+}
+
+export function setupLogging() {
+    configureLoggers({
+        level:
+            process.env.BIND_MODE === 'development' ? LogLevel.INFO : LogLevel.WARN,
+    })
 }

@@ -2,7 +2,7 @@ import contentScriptStyles from '@/content-script/styles/main.css'
 import popupStyles from '@/popup/styles/main.css'
 
 import App from './App.vue'
-import { setupApp } from '@/shared/app'
+import { setupApp, setupLogging } from '@/shared/app'
 
 document.head.insertAdjacentHTML(
     'beforeend',
@@ -17,4 +17,5 @@ document.head.insertAdjacentHTML(
     `,
 )
 
+setupLogging()
 setupApp(App).mount('#app')

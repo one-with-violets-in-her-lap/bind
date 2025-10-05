@@ -3,7 +3,7 @@ import styles from './styles/main.css'
 import App from './App.vue'
 import { ShortcutsService } from '@/shared/services/shortcuts'
 import { setupAllHotkeysListener } from '@/shared/utils/hotkeys'
-import { setupApp } from '@/shared/app'
+import { setupApp, setupLogging } from '@/shared/app'
 import { Logger } from '@/shared/utils/logging'
 
 const logger = new Logger('content-script/main')
@@ -30,6 +30,7 @@ function mountContentScriptApp() {
 
     document.body.appendChild(shadowHost)
 
+    setupLogging()
     const app = setupApp(App)
 
     logger.info('Content script started')

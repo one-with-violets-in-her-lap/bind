@@ -10,7 +10,11 @@ if (await exists(OUT_DIRECTORY)) {
 }
 
 Bun.build({
-    entrypoints: ['./src/content-script/main.ts', './src/popup/index.html'],
+    entrypoints: [
+        './src/content-script/main.ts',
+        './src/popup/index.html',
+        './src/background/main.ts',
+    ],
     outdir: OUT_DIRECTORY,
     plugins: [
         vuePlugin(),

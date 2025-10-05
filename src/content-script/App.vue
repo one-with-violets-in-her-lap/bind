@@ -2,12 +2,12 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { ShortcutInput } from '@/shared/models/shortcut'
 import AppButton from '@/shared/components/ui/app-button/AppButton.vue'
-import { addContentScriptMessageListener } from '@/shared/utils/extension/messages'
 import { useHoveredElement } from '@/shared/utils/hovered-element'
 import { useBoundingBox } from '@/shared/utils/bounding-box'
-import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'
 import { useShortcutsStore } from '@/shared/stores/shortcuts'
 import { KeyCode, useHotkeyListener } from '@/shared/utils/hotkeys'
+import { onMessageToContentScript } from '@/shared/utils/extension/messages'
+import ShortcutFormPopup from '@/content-script/components/shortcut-form-popup/ShortcutFormPopup.vue'
 
 const { addShortcut } = useShortcutsStore()
 
@@ -56,13 +56,9 @@ const boundingClientRect = computed(() =>
 const abortController = new AbortController()
 
 onMounted(() => {
-    addContentScriptMessageListener(
-        'shortcut-creation-start',
-        handleShortcutCreationStart,
-        {
-            signal: abortController.signal,
-        },
-    )
+    onMessageToContentScript('shortcut-creation-start', handleShortcutCreationStart, {
+        signal: abortController.signal,
+    })
 })
 
 onUnmounted(() => {
