@@ -1,15 +1,9 @@
-# bind-extension-new
+# Bind
 
-To install dependencies:
+Browser extensions that lets you bind a hotkey to any button on any site
 
-```bash
-bun install
-```
+![Extension demo](https://github.com/user-attachments/assets/16d78e3c-0357-417a-ab67-2ce39e61b725)
 
-To run:
+## Installation
 
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.2.22. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+TODO
