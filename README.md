@@ -6,7 +6,17 @@ Browser extension that lets you bind a hotkey to any button on any site
 
 ## Installation
 
-TODO: installation from stores/CRX files
+### Chrome
+
+Download [`bind-chrome.zip`](https://github.com/one-with-violets-in-her-lap/bind/releases/latest) archive and extract it
+
+Go to `chrome://extensions` page and enable the developer mode. Then, press the "Load unpacked" button and choose the extracted folder
+
+<img width="798" height="107" alt="Screenshot_20251010_202609" src="https://github.com/user-attachments/assets/f836e4be-3ac7-4a42-9a1c-284a7613e2f1" />
+
+### Firefox
+
+TODO
 
 ### Manual
 
