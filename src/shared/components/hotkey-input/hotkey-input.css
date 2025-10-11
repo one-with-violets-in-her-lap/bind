@@ -28,7 +28,7 @@
 }
 
 .hotkey-input.hotkey-input-active,
-.hotkey-input:focus-visible {
+.hotkey-input:focus-within {
     border-color: var(--color-foreground);
 }
 

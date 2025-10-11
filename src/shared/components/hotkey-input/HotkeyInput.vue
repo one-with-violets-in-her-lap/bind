@@ -24,6 +24,7 @@ onUnmounted(() => hotkeyListener?.remove())
 const inputButtonRef = ref<HTMLButtonElement>()
 onMounted(() => {
     if (props.triggerAutomatically) {
+        inputButtonRef.value?.focus()
         inputButtonRef.value?.click()
     }
 })
