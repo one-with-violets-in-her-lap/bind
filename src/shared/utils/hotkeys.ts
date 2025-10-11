@@ -7,6 +7,8 @@ export interface Key {
 
 const HOTKEY_INPUT_TIMEOUT_MILLISECONDS = 300
 
+const MODIFIER_KEYS = ['Control', 'Shift', 'Meta', 'Alt']
+
 export function setupAllHotkeysListener(
     hotkeyHandler: (hotkey: Key[], event: KeyboardEvent) => void,
     options: { onHotkeyEnd?: (hotkey: Key[]) => void; signal?: AbortSignal } = {},
@@ -18,6 +20,11 @@ export function setupAllHotkeysListener(
         clearTimeout(keysResetTimeoutId)
 
         if (event.repeat) {
+            return
+        }
+
+        // Ignores modifier keys being handled separately on Chromium browsers
+        if (MODIFIER_KEYS.includes(event.key)) {
             return
         }
 
@@ -51,7 +58,7 @@ export function setupAllHotkeysListener(
 
         pressedKeys.push({
             code: event.keyCode,
-            name: event.key.slice(0, 1).toUpperCase() + event.key.slice(1),
+            name: KeyCode[event.keyCode as KeyCode] || event.key,
         })
 
         keysResetTimeoutId = window.setTimeout(() => {
