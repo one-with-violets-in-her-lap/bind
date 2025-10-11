@@ -1,2 +1,3 @@
 [serve.static]
 plugins = ["./plugins/vue.ts", "./plugins/styles.ts"]
+env = "BIND_*"
