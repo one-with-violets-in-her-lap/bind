@@ -20,14 +20,16 @@
 /* Variants */
 .app-button.app-button-variant-default {
     color: var(--color-background);
+    box-shadow: inset 0px 2px 5px 1px rgba(165, 165, 165);
     background-color: var(--color-foreground);
     border: 0.8px solid var(--color-foreground-muted);
 }
 
 .app-button.app-button-variant-default:hover:not(:disabled) {
     opacity: 0.9;
-    box-shadow: 0px 0px 16px 0px
-        color-mix(in srgb, var(--color-foreground) 20%, transparent);
+    box-shadow:
+        inset 0px 2px 5px 1px rgba(220, 220, 220),
+        0px 0px 25px 0px color-mix(in srgb, var(--color-foreground) 20%, transparent);
 }
 
 .app-button.app-button-variant-secondary {
@@ -37,6 +39,7 @@
 }
 
 .app-button.app-button-variant-secondary:hover:not(:disabled) {
+    opacity: 0.9;
     background-color: var(--color-background-glass);
 }
 

@@ -11,6 +11,11 @@ html,
     --color-foreground-secondary: rgba(256, 256, 256, 0.45);
     --color-foreground-muted: rgba(256, 256, 256, 0.2);
     --color-background: #171717;
+    --color-background-secondary: color-mix(
+        in srgb,
+        var(--color-background) 87%,
+        white
+    );
     --color-background-glass: rgba(36, 36, 36, 0.7);
 }
 
