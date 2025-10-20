@@ -16,7 +16,7 @@ Go to `chrome://extensions` page and enable the developer mode. Then, press the 
 
 ### Firefox
 
-TODO
+[🍁 Install from Firefox Add-ons](https://addons.mozilla.org/firefox/addon/bind/)
 
 ### Manual
 
