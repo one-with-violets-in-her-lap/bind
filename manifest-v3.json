@@ -5,7 +5,7 @@
 
     "permissions": ["activeTab", "storage"],
 
-    "description": "Shortcuts for anything in browser. Bind a hotkey to a button click",
+    "description": "Add keyboard shortcuts to any website",
 
     "icons": {
         "48": "icons/48px.png"
