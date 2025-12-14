@@ -2,7 +2,7 @@
 
 Browser extension that lets you bind a hotkey to any button on any site
 
-![Bind extension demo GIF](https://i.postimg.cc/8GHpvYwF/output.gif?dl=1)
+![Bind extension demo GIF](https://i.ibb.co/S7VBKJgp/output.gif)
 
 > ⚠️ The extension is currently in early development. Expect new features - scroll, input and browser actions (e.g. new tab)
 on key press
